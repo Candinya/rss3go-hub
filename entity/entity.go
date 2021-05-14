@@ -28,8 +28,8 @@ type RSS3Base struct {
 	id Address
 	version string
 	_type string
-	dateCreated string
-	dateUpdated string
+	date_created string
+	date_updated string
 	editors struct {
 		blocklist []Address
 		allowlist []Address
@@ -69,8 +69,8 @@ func NewRSS3Persona() RSS3Persona {
 			id:          "",
 			version:     "",
 			_type:       "persona",
-			dateCreated: "",
-			dateUpdated: "",
+			date_created: "",
+			date_updated: "",
 			editors:    nil,
 			items:      nil,
 			items_next: "",
@@ -106,8 +106,8 @@ func NewRSS3Items() RSS3Items {
 			id:          "",
 			version:     "",
 			_type:       "items",
-			dateCreated: "",
-			dateUpdated: "",
+			date_created: "",
+			date_updated: "",
 			editors: struct {
 				blocklist []Address
 				allowlist []Address
@@ -135,8 +135,8 @@ func NewRSS3Link() RSS3Link {
 			id:          "",
 			version:     "",
 			_type:       "relationship",
-			dateCreated: "",
-			dateUpdated: "",
+			date_created: "",
+			date_updated: "",
 			editors: struct {
 				blocklist []Address
 				allowlist []Address
@@ -162,16 +162,16 @@ type RSS3Item struct {
 	title string
 	summary string
 	tags []string
-	datePublished string
-	dateModified string
+	date_published string
+	date_modified string
 
 	contents []struct {
 		id Address // Link to a third party file
 		mimeType string
 		name string
 		tags []string
-		sizeInBytes string
-		durationInSeconds string
+		size_in_bytes string
+		duration_in_seconds string
 	}
 
 	contexts []struct {
