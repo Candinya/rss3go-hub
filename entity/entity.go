@@ -25,17 +25,17 @@ type Address = string
 
 // Common attributes for each file
 type RSS3Base struct {
-	id Address
-	version string
-	_type string
-	date_created string
-	date_updated string
-	editors struct {
-		blocklist []Address
-		allowlist []Address
-	}
-	items []interface{}
-	items_next Address
+	Id          Address `json:"id"`
+	Version     string  `json:"version"`
+	Type        string  `json:"type"`
+	DateCreated string  `json:"date_created"`
+	DateUpdated string  `json:"date_updated"`
+	Editors     struct {
+		Blocklist []Address `json:"blocklist"`
+		Allowlist []Address `json:"allowlist"`
+	} `json:"editors"`
+	Items     []interface{} `json:"items"`
+	ItemsNext Address       `json:"items_next"`
 
 }
 
@@ -46,48 +46,48 @@ type RSS3Persona struct {
 	// _type extends, default to 'persona'
 	// editors extends, default to nil
 
-	profile struct {
-		name string
-		avatar Address
-		bio string
-		tag []string
-	}
+	Profile struct {
+		Name   string   `json:"name"`
+		Avatar Address  `json:"avatar"`
+		Bio    string   `json:"bio"`
+		Tag    []string `json:"tag"`
+	} `json:"profile"`
 
-	links []struct {
-		id Address
-		name string
-		tags []string
-	}
+	Links []struct {
+		Id   Address  `json:"id"`
+		Name string   `json:"name"`
+		Tags []string `json:"tags"`
+	} `json:"links"`
 
-	items []RSS3Item
-	assets interface{}
+	Items  []RSS3Item  `json:"items"`
+	Assets interface{} `json:"assets"`
 }
 
 func NewRSS3Persona() RSS3Persona {
 	return RSS3Persona {
 		RSS3Base: RSS3Base {
-			id:          "",
-			version:     "",
-			_type:       "persona",
-			date_created: "",
-			date_updated: "",
-			editors:    nil,
-			items:      nil,
-			items_next: "",
+			Id:          "",
+			Version:     "",
+			Type:       "persona",
+			DateCreated: "",
+			DateUpdated: "",
+			Editors:     nil,
+			Items:       nil,
+			ItemsNext:   "",
 		},
-		profile: struct {
-			name   string
-			avatar Address
-			bio    string
-			tag    []string
+		Profile: struct {
+			Name   string
+			Avatar Address
+			Bio    string
+			Tag    []string
 		}{},
-		links:  []struct {
-			id Address
-			name string
-			tags []string
+		Links:  []struct {
+			Id   Address
+			Name string
+			Tags []string
 		}{},
-		items:  []RSS3Item{},
-		assets: nil,
+		Items:  []RSS3Item{},
+		Assets: nil,
 	}
 }
 
@@ -97,25 +97,25 @@ type RSS3Items struct {
 
 	// _type extends, default to 'items'
 
-	items []RSS3Item
+	Items []RSS3Item `json:"items"`
 }
 
 func NewRSS3Items() RSS3Items {
 	return RSS3Items {
 		RSS3Base: RSS3Base {
-			id:          "",
-			version:     "",
-			_type:       "items",
-			date_created: "",
-			date_updated: "",
-			editors: struct {
-				blocklist []Address
-				allowlist []Address
+			Id:          "",
+			Version:     "",
+			Type:       "items",
+			DateCreated: "",
+			DateUpdated: "",
+			Editors: struct {
+				Blocklist []Address
+				Allowlist []Address
 			}{},
-			items:      nil,
-			items_next: "",
+			Items:     nil,
+			ItemsNext: "",
 		},
-		items:    []RSS3Item{},
+		Items: []RSS3Item{},
 	}
 }
 
@@ -125,59 +125,59 @@ type RSS3Link struct {
 
 	// _type extends, default to 'relationship'
 
-	items []RSS3OtherPersona
+	Items []RSS3OtherPersona `json:"items"`
 
 }
 
 func NewRSS3Link() RSS3Link {
 	return RSS3Link {
 		RSS3Base: RSS3Base{
-			id:          "",
-			version:     "",
-			_type:       "relationship",
-			date_created: "",
-			date_updated: "",
-			editors: struct {
-				blocklist []Address
-				allowlist []Address
+			Id:          "",
+			Version:     "",
+			Type:        "relationship",
+			DateCreated: "",
+			DateUpdated: "",
+			Editors: struct {
+				Blocklist []Address
+				Allowlist []Address
 			}{},
-			items:      nil,
-			items_next: nil,
+			Items:     nil,
+			ItemsNext: nil,
 		},
-		items:    []RSS3OtherPersona{},
+		Items: []RSS3OtherPersona{},
 	}
 }
 
 type RSS3OtherPersona struct {
-	id Address
-	verification string
-	name string
-	avatar Address
-	bio string
+	Id           Address `json:"id"`
+	Verification string  `json:"verification"`
+	Name         string  `json:"name"`
+	Avatar       Address `json:"avatar"`
+	Bio          string  `json:"bio"`
 }
 
 type RSS3Item struct {
-	id string
-	authors []RSS3OtherPersona
-	title string
-	summary string
-	tags []string
-	date_published string
-	date_modified string
+	Id            string             `json:"id"`
+	Authors       []RSS3OtherPersona `json:"authors"`
+	Title         string             `json:"title"`
+	Summary       string             `json:"summary"`
+	Tags          []string           `json:"tags"`
+	DatePublished string             `json:"date_published"`
+	DateModified  string             `json:"date_modified"`
 
 	contents []struct {
-		id Address // Link to a third party file
-		mimeType string
-		name string
-		tags []string
-		size_in_bytes string
-		duration_in_seconds string
+		Id                Address  `json:"id"` // Link to a third party file
+		MimeType          string   `json:"mime_type"`
+		Name              string   `json:"name"`
+		Tags              []string `json:"tags"`
+		SizeInBytes       string   `json:"size_in_bytes"`
+		DurationInSeconds string   `json:"duration_in_seconds"`
 	}
 
 	contexts []struct {
-		id Address // Link to a RSS3Items file
-		name string
-		tags []string
+		Id   Address  `json:"id"` // Link to a RSS3Items file
+		Name string   `json:"name"`
+		Tags []string `json:"tags"`
 	}
 
 }

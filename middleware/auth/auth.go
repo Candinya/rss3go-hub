@@ -24,7 +24,9 @@ package auth
 import "github.com/gin-gonic/gin"
 
 func Auth() gin.HandlerFunc {
-	return func (c * gin.Context) {
+	return func (context * gin.Context) {
+
+		pid := context.Param("pid") ? context.Param("pid") : context.Request.Body
 
 		c.Next()
 	}
