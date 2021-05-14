@@ -21,13 +21,33 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package auth
 
-import "github.com/gin-gonic/gin"
+import (
+	"crypto"
+	"crypto/md5"
+	"fmt"
+	"github.com/gin-gonic/gin"
+)
+
+// Todo: finish this.
 
 func Auth() gin.HandlerFunc {
-	return func (context * gin.Context) {
+	return func (ctx * gin.Context) {
 
-		pid := context.Param("pid") ? context.Param("pid") : context.Request.Body
+		publicKey := ctx.Param("pid") // exm?
 
-		c.Next()
+		raw, err := ctx.GetRawData()
+
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+
+		dataProcessed := fmt.Sprintf("%s%s", ctx.FullPath(), raw)
+
+		dataBytes := []byte(dataProcessed)
+		md5hash := fmt.Sprintf("%x", md5.Sum(dataBytes))
+
+		println(md5hash)
+
+		ctx.Next()
 	}
 }

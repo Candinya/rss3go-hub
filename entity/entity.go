@@ -63,33 +63,33 @@ type RSS3Persona struct {
 	Assets interface{} `json:"assets"`
 }
 
-func NewRSS3Persona() RSS3Persona {
-	return RSS3Persona {
-		RSS3Base: RSS3Base {
-			Id:          "",
-			Version:     "",
-			Type:       "persona",
-			DateCreated: "",
-			DateUpdated: "",
-			Editors:     nil,
-			Items:       nil,
-			ItemsNext:   "",
-		},
-		Profile: struct {
-			Name   string
-			Avatar Address
-			Bio    string
-			Tag    []string
-		}{},
-		Links:  []struct {
-			Id   Address
-			Name string
-			Tags []string
-		}{},
-		Items:  []RSS3Item{},
-		Assets: nil,
-	}
-}
+//func NewRSS3Persona() RSS3Persona {
+//	return RSS3Persona {
+//		RSS3Base: RSS3Base {
+//			Id:          "",
+//			Version:     "",
+//			Type:       "persona",
+//			DateCreated: "",
+//			DateUpdated: "",
+//			Editors:     nil,
+//			Items:       nil,
+//			ItemsNext:   "",
+//		},
+//		Profile: struct {
+//			Name   string
+//			Avatar Address
+//			Bio    string
+//			Tag    []string
+//		}{},
+//		Links:  []struct {
+//			Id   Address
+//			Name string
+//			Tags []string
+//		}{},
+//		Items:  []RSS3Item{},
+//		Assets: nil,
+//	}
+//}
 
 // RSS3Items file
 type RSS3Items struct {
@@ -100,24 +100,24 @@ type RSS3Items struct {
 	Items []RSS3Item `json:"items"`
 }
 
-func NewRSS3Items() RSS3Items {
-	return RSS3Items {
-		RSS3Base: RSS3Base {
-			Id:          "",
-			Version:     "",
-			Type:       "items",
-			DateCreated: "",
-			DateUpdated: "",
-			Editors: struct {
-				Blocklist []Address
-				Allowlist []Address
-			}{},
-			Items:     nil,
-			ItemsNext: "",
-		},
-		Items: []RSS3Item{},
-	}
-}
+//func NewRSS3Items() RSS3Items {
+//	return RSS3Items {
+//		RSS3Base: RSS3Base {
+//			Id:          "",
+//			Version:     "",
+//			Type:       "items",
+//			DateCreated: "",
+//			DateUpdated: "",
+//			Editors: struct {
+//				Blocklist []Address
+//				Allowlist []Address
+//			}{},
+//			Items:     nil,
+//			ItemsNext: "",
+//		},
+//		Items: []RSS3Item{},
+//	}
+//}
 
 // RSS3Link file
 type RSS3Link struct {
@@ -129,24 +129,24 @@ type RSS3Link struct {
 
 }
 
-func NewRSS3Link() RSS3Link {
-	return RSS3Link {
-		RSS3Base: RSS3Base{
-			Id:          "",
-			Version:     "",
-			Type:        "relationship",
-			DateCreated: "",
-			DateUpdated: "",
-			Editors: struct {
-				Blocklist []Address
-				Allowlist []Address
-			}{},
-			Items:     nil,
-			ItemsNext: nil,
-		},
-		Items: []RSS3OtherPersona{},
-	}
-}
+//func NewRSS3Link() RSS3Link {
+//	return RSS3Link {
+//		RSS3Base: RSS3Base{
+//			Id:          "",
+//			Version:     "",
+//			Type:        "relationship",
+//			DateCreated: "",
+//			DateUpdated: "",
+//			Editors: struct {
+//				Blocklist []Address
+//				Allowlist []Address
+//			}{},
+//			Items:     nil,
+//			ItemsNext: nil,
+//		},
+//		Items: []RSS3OtherPersona{},
+//	}
+//}
 
 type RSS3OtherPersona struct {
 	Id           Address `json:"id"`
