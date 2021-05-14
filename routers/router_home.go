@@ -28,8 +28,8 @@ import (
 
 func HomeRouter (e * gin.Engine) {
 
-	e.GET("/", func(context * gin.Context) {
-		context.String(http.StatusOK, "Hello, RSS3Go")
+	e.GET("/", func(ctx *gin.Context) {
+		ctx.String(http.StatusOK, "Hello, RSS3Go")
 	})
 
 }

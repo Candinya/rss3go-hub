@@ -61,18 +61,18 @@ func (link * Link) del() {
 
 }
 
-func NewHandler(context *gin.Context) {
+func NewHandler(ctx *gin.Context) {
 
 }
 
-func GetHandler(context *gin.Context) {
+func GetHandler(ctx *gin.Context) {
 
 }
 
-func ModifyHandler(context *gin.Context) {
+func ModifyHandler(ctx *gin.Context) {
 
 }
 
-func DeleteHandler(context *gin.Context) {
+func DeleteHandler(ctx *gin.Context) {
 
 }
