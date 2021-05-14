@@ -19,61 +19,27 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package persona
+package routers
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
-// todo: finish this
+type Option func(*gin.Engine)
 
-type meta struct {
+var options = []Option{}
 
+// Register routers
+func Include (opts ... Option) {
+	options = append(options, opts...)
 }
 
-type Persona struct {
+func Init() *gin.Engine {
+	r := gin.Default()
 
+	for _, opt := range options {
+		opt(r)
+	}
+
+	return r
 }
-
-func (persona * Persona) getMeta(id * int) {
-
-}
-
-func (persona * Persona) getFull(id * int) {
-
-}
-
-func (persona * Persona) addNew() {
-
-}
-
-func (persona * Persona) setWhat() {
-
-}
-
-func (persona * Persona) setFull() {
-
-}
-
-func (persona * Persona) setChanged() {
-
-}
-
-func (persona * Persona) del() {
-
-}
-
-func NewHandler(context *gin.Context) {
-
-}
-
-func GetHandler(context *gin.Context) {
-
-}
-
-func ModifyHandler(context *gin.Context) {
-
-}
-
-func DeleteHandler(context *gin.Context) {
-
-}
-

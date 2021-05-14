@@ -21,120 +21,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"rss3go/routers"
+	"rss3go/routers/item"
+	"rss3go/routers/link"
+	"rss3go/routers/persona"
+)
 
 func main() {
-	r := gin.Default()
+	routers.Include(routers.HomeRouter, persona.Routers, item.Routers, link.Routers)
 
-	// Home
+	r := routers.Init()
 
-	r.GET("/", func(c * gin.Context) {
-		c.String(200, "Hello, RSS3Go")
-	})
-
-	// Persona
-
-	apiPersona := r.Group("/persona")
-	{
-		apiPersona.HEAD("/get/:id", func(c * gin.Context) {
-			// get the metadata of a persona
-		})
-
-		apiPersona.GET("/get/:id", func(c * gin.Context) {
-			// get the full content of a persona
-		})
-
-
-		apiPersona.POST("/add", func(c * gin.Context) {
-			// add a new persona
-		})
-
-
-		apiPersona.OPTIONS("/set", func(c * gin.Context) {
-			// get what can be changed of a persona
-		})
-
-		apiPersona.PUT("/set", func(c * gin.Context) {
-			// update the persona (full object)
-		})
-
-		apiPersona.PATCH("/set", func(c * gin.Context) {
-			// update the persona (changes only)
-		})
-
-
-		apiPersona.DELETE("/del", func(c * gin.Context) {
-			// delete the persona
-		})
+	if err := r.Run(); err != nil {
+		fmt.Printf("Service start failed, err: %v\n", err)
 	}
-
-	apiItem := r.Group("/items")
-	{
-		apiItem.HEAD("/get/:id", func(c * gin.Context) {
-			// get the metadata of an item
-		})
-
-		apiItem.GET("/get/:id", func(c * gin.Context) {
-			// get the full content of an item
-		})
-
-
-		apiItem.POST("/add", func(c * gin.Context) {
-			// add a new item
-		})
-
-
-		apiItem.OPTIONS("/set", func(c * gin.Context) {
-			// get what can be changed of an item
-		})
-
-		apiItem.PUT("/set", func(c * gin.Context) {
-			// update the item (full object)
-		})
-
-		apiItem.PATCH("/set", func(c * gin.Context) {
-			// update the item (changes only)
-		})
-
-
-		apiItem.DELETE("/del", func(c * gin.Context) {
-			// delete the item
-		})
-	}
-
-	apiLink := r.Group("/link")
-	{
-		apiLink.HEAD("/get/:id", func(c * gin.Context) {
-			// get the metadata of a link
-		})
-
-		apiLink.GET("/get/:id", func(c * gin.Context) {
-			// get the full content of a link
-		})
-
-
-		apiLink.POST("/add", func(c * gin.Context) {
-			// add a new link
-		})
-
-
-		apiLink.OPTIONS("/set", func(c * gin.Context) {
-			// get what can be changed of an link
-		})
-
-		apiLink.PUT("/set", func(c * gin.Context) {
-			// update the link (full object)
-		})
-
-		apiLink.PATCH("/set", func(c * gin.Context) {
-			// update the link (changes only)
-		})
-
-
-		apiLink.DELETE("/del", func(c * gin.Context) {
-			// delete the link
-		})
-	}
-
-	r.Run()
 }

@@ -19,61 +19,30 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package persona
+package item
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"rss3go/api/item"
+)
 
-// todo: finish this
+func Routers (e * gin.Engine) {
 
-type meta struct {
+	apiItems := e.Group("/personas/:pid/items")
+	{
 
+		apiItems.GET("", item.GetHandler)
+
+		apiItems.POST("", item.NewHandler)
+
+		apiItemsSpecify := apiItems.Group("/:tid")
+		{
+
+			apiItemsSpecify.PATCH("", item.ModifyHandler)
+
+			apiItemsSpecify.DELETE("", item.DeleteHandler)
+
+		}
+
+	}
 }
-
-type Persona struct {
-
-}
-
-func (persona * Persona) getMeta(id * int) {
-
-}
-
-func (persona * Persona) getFull(id * int) {
-
-}
-
-func (persona * Persona) addNew() {
-
-}
-
-func (persona * Persona) setWhat() {
-
-}
-
-func (persona * Persona) setFull() {
-
-}
-
-func (persona * Persona) setChanged() {
-
-}
-
-func (persona * Persona) del() {
-
-}
-
-func NewHandler(context *gin.Context) {
-
-}
-
-func GetHandler(context *gin.Context) {
-
-}
-
-func ModifyHandler(context *gin.Context) {
-
-}
-
-func DeleteHandler(context *gin.Context) {
-
-}
-

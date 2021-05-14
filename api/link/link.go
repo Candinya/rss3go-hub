@@ -21,6 +21,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package link
 
+import "github.com/gin-gonic/gin"
+
 // todo: finish this
 
 type meta struct {
@@ -56,5 +58,21 @@ func (link * Link) setChanged() {
 }
 
 func (link * Link) del() {
+
+}
+
+func NewHandler(context *gin.Context) {
+
+}
+
+func GetHandler(context *gin.Context) {
+
+}
+
+func ModifyHandler(context *gin.Context) {
+
+}
+
+func DeleteHandler(context *gin.Context) {
 
 }
