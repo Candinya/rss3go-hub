@@ -22,10 +22,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package auth
 
 import (
-	"crypto"
 	"crypto/md5"
 	"fmt"
+	"github.com/ethereum/go-ethereum/crypto/secp256k1"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 // Todo: finish this.
@@ -33,20 +34,35 @@ import (
 func Auth() gin.HandlerFunc {
 	return func (ctx * gin.Context) {
 
-		publicKey := ctx.Param("pid") // exm?
+		personaId := ctx.Param("pid")
+		reqSign := ctx.Request.Header.Get("sign")
 
-		raw, err := ctx.GetRawData()
+		if personaId != "" && reqSign != "" {
 
-		if err != nil {
-			fmt.Println(err.Error())
+			personaIdBytes := []byte(personaId)
+			reqSignBytes := []byte(reqSign)
+
+			raw, err := ctx.GetRawData()
+
+			if err != nil {
+				fmt.Println(err.Error())
+			}
+
+			dataProcessed := fmt.Sprintf("%s%s", ctx.FullPath(), raw)
+
+			dataBytes := []byte(dataProcessed)
+			md5hash := md5.Sum(dataBytes)
+
+			fmt.Printf("%x", md5hash)
+
+			verification := secp256k1.VerifySignature(personaIdBytes, md5hash[:], reqSignBytes)
+
+			if !verification {
+				ctx.String(http.StatusUnauthorized, "Unauthorized. Missing authentication parameters.")
+			}
+		} else {
+			ctx.String(http.StatusUnauthorized, "Unauthorized. Missing authentication parameters.")
 		}
-
-		dataProcessed := fmt.Sprintf("%s%s", ctx.FullPath(), raw)
-
-		dataBytes := []byte(dataProcessed)
-		md5hash := fmt.Sprintf("%x", md5.Sum(dataBytes))
-
-		println(md5hash)
 
 		ctx.Next()
 	}
