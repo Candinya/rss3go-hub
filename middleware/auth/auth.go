@@ -29,7 +29,7 @@ import (
 	"net/http"
 )
 
-// Todo: finish this.
+// Todo: test this.
 
 func Auth() gin.HandlerFunc {
 	return func (ctx * gin.Context) {

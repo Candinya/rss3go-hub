@@ -24,23 +24,24 @@ package persona
 import (
 	"github.com/gin-gonic/gin"
 	"rss3go/api/persona"
+	"rss3go/middleware/auth"
 )
 
-func Routers (e * gin.Engine) {
+func Routers (e *gin.Engine) {
 
 	apiPersona := e.Group("/personas")
 	{
 
-		apiPersona.POST("", persona.NewHandler)
+		apiPersona.POST("", auth.Auth(), persona.NewHandler)
 
 		apiPersonaSpecify := apiPersona.Group("/:pid")
 		{
 
 			apiPersonaSpecify.GET("", persona.GetHandler)
 
-			apiPersonaSpecify.PATCH("", persona.ModifyHandler)
+			apiPersonaSpecify.PATCH("", auth.Auth(), persona.ModifyHandler)
 
-			apiPersonaSpecify.DELETE("", persona.DeleteHandler)
+			apiPersonaSpecify.DELETE("", auth.Auth(), persona.DeleteHandler)
 
 		}
 

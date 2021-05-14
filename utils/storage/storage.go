@@ -19,17 +19,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package routers
-
-import (
-	"github.com/gin-gonic/gin"
-	"net/http"
-)
-
-func HomeRouter (e * gin.Engine) {
-
-	e.GET("/", func(ctx *gin.Context) {
-		ctx.String(http.StatusOK, "Hello, RSS3Go")
-	})
-
-}
+package storage

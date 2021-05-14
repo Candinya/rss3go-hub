@@ -19,29 +19,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package link
-
-import (
-	"github.com/gin-gonic/gin"
-	"rss3go/api/link"
-	"rss3go/middleware/auth"
-)
-
-func Routers (e * gin.Engine) {
-
-	apiLinks := e.Group("/personas/:pid/links")
-	{
-
-		apiLinks.POST("", link.NewHandler)
-
-		apiLinksSpecify := apiLinks.Group("/:lid")
-		{
-
-			apiLinksSpecify.PATCH("", auth.Auth(), link.ModifyHandler)
-
-			apiLinksSpecify.DELETE("", auth.Auth(), link.DeleteHandler)
-
-		}
-
-	}
-}
+package auth

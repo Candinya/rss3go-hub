@@ -23,16 +23,20 @@ package main
 
 import (
 	"fmt"
+	"github.com/gin-contrib/cors"
 	"rss3go/routers"
 	"rss3go/routers/item"
 	"rss3go/routers/link"
+	"rss3go/routers/page"
 	"rss3go/routers/persona"
 )
 
 func main() {
-	routers.Include(routers.HomeRouter, persona.Routers, item.Routers, link.Routers)
+	routers.Include(page.Routers, persona.Routers, item.Routers, link.Routers)
 
 	r := routers.Init()
+
+	r.Use(cors.Default())
 
 	if err := r.Run(); err != nil {
 		fmt.Printf("Service start failed, err: %v\n", err)

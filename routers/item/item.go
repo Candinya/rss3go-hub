@@ -24,6 +24,7 @@ package item
 import (
 	"github.com/gin-gonic/gin"
 	"rss3go/api/item"
+	"rss3go/middleware/auth"
 )
 
 func Routers (e * gin.Engine) {
@@ -33,14 +34,14 @@ func Routers (e * gin.Engine) {
 
 		apiItems.GET("", item.GetHandler)
 
-		apiItems.POST("", item.NewHandler)
+		apiItems.POST("", auth.Auth(), item.NewHandler)
 
 		apiItemsSpecify := apiItems.Group("/:tid")
 		{
 
-			apiItemsSpecify.PATCH("", item.ModifyHandler)
+			apiItemsSpecify.PATCH("", auth.Auth(), item.ModifyHandler)
 
-			apiItemsSpecify.DELETE("", item.DeleteHandler)
+			apiItemsSpecify.DELETE("", auth.Auth(), item.DeleteHandler)
 
 		}
 
