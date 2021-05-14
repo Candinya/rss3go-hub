@@ -23,8 +23,8 @@ package api
 
 type API interface {
 
-	getMeta(id * int)
-	getFull(id * int)
+	getMeta(id *int)
+	getFull(id *int)
 	addNew() int
 	setWhat()
 	setFull() bool
