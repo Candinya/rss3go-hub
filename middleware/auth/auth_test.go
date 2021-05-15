@@ -20,3 +20,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  ********************************************************************/
 
 package auth
+
+import "testing"
+
+func TestAuth(t *testing.T) {
+
+}

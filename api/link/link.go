@@ -21,43 +21,38 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package link
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"rss3go/entity"
+)
 
 // todo: finish this
 
-type meta struct {
+func (link * entity.RSS3Link) getMeta(id * int) {
 
 }
 
-type Link struct {
+func (link * entity.RSS3Link) getFull(id * int) {
 
 }
 
-func (link * Link) getMeta(id * int) {
+func (link * entity.RSS3Link) addNew() {
 
 }
 
-func (link * Link) getFull(id * int) {
+func (link * entity.RSS3Link) setWhat() {
 
 }
 
-func (link * Link) addNew() {
+func (link * entity.RSS3Link) setFull() {
 
 }
 
-func (link * Link) setWhat() {
+func (link * entity.RSS3Link) setChanged() {
 
 }
 
-func (link * Link) setFull() {
-
-}
-
-func (link * Link) setChanged() {
-
-}
-
-func (link * Link) del() {
+func (link * entity.RSS3Link) del() {
 
 }
 

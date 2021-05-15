@@ -21,43 +21,38 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package persona
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"rss3go/entity"
+)
 
 // todo: finish this
 
-type meta struct {
+func (persona * entity.RSS3Persona) getMeta(id * int) {
 
 }
 
-type Persona struct {
+func (persona * entity.RSS3Persona) getFull(id * int) {
 
 }
 
-func (persona * Persona) getMeta(id * int) {
+func (persona * entity.RSS3Persona) addNew() {
 
 }
 
-func (persona * Persona) getFull(id * int) {
+func (persona * entity.RSS3Persona) setWhat() {
 
 }
 
-func (persona * Persona) addNew() {
+func (persona * entity.RSS3Persona) setFull() {
 
 }
 
-func (persona * Persona) setWhat() {
+func (persona * entity.RSS3Persona) setChanged() {
 
 }
 
-func (persona * Persona) setFull() {
-
-}
-
-func (persona * Persona) setChanged() {
-
-}
-
-func (persona * Persona) del() {
+func (persona * entity.RSS3Persona) del() {
 
 }
 
