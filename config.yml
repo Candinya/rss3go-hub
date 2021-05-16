@@ -1,0 +1,9 @@
+# Written for rss3go
+# By Candinya
+# Copyright (C) 2021 Nyawork, Candinya
+
+storage:
+  type: 'local'
+  path: 'storage/'
+
+item_page_size: 2

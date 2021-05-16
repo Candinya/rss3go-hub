@@ -19,50 +19,36 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package main
+package config
 
 import (
-	"github.com/gin-contrib/cors"
-	"log"
-	"rss3go/config"
-	"rss3go/routers"
-	"rss3go/routers/item"
-	"rss3go/routers/link"
-	"rss3go/routers/page"
-	"rss3go/routers/persona"
+	"gopkg.in/yaml.v3"
+	"os"
 )
 
+type Config struct {
+	Storage struct {
+		Type string `yaml:"type"`
+		Path string `yaml:"path"`
+	} `yaml:"storage"`
 
-func main() {
+	ItemPageSize string `yaml:"item_page_size"`
+}
 
-	// Load config
+var GlobalConfig Config
 
-	log.Println("Loading config...")
+func LoadConfig(filename string) error {
 
-	if err := config.LoadConfig("config.yml"); err != nil {
-		panic(err)
+	data, err := os.ReadFile(filename)
+
+	if err != nil {
+		return err
 	}
 
-	log.Println("Config loaded successfully.")
-
-	// Init routers
-
-	log.Println("Initializing routers...")
-
-	routers.Include(page.Routers, persona.Routers, item.Routers, link.Routers)
-
-	r := routers.Init()
-
-	log.Println("Routers initialized successfully.")
-
-	r.Use(cors.Default())
-
-	log.Println("Starting gin server...")
-
-	//gin.SetMode(gin.ReleaseMode)
-
-	if err := r.Run(); err != nil {
-		panic(err)
+	if err := yaml.Unmarshal(data, &GlobalConfig); err != nil {
+		return err
 	}
+
+	return nil
 
 }
