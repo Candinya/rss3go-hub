@@ -50,7 +50,7 @@ type RSS3Persona struct {
 		Name   string   `json:"name"`
 		Avatar Address  `json:"avatar"`
 		Bio    string   `json:"bio"`
-		Tag    []string `json:"tag"`
+		Tags   []string `json:"tags"`
 	} `json:"profile"`
 
 	Links []struct {
@@ -99,20 +99,20 @@ type RSS3Item struct {
 	DatePublished string             `json:"date_published"`
 	DateModified  string             `json:"date_modified"`
 
-	contents []struct {
+	Contents []struct {
 		Id                Address  `json:"id"` // Link to a third party file
 		MimeType          string   `json:"mime_type"`
 		Name              string   `json:"name"`
 		Tags              []string `json:"tags"`
 		SizeInBytes       string   `json:"size_in_bytes"`
 		DurationInSeconds string   `json:"duration_in_seconds"`
-	}
+	} `json:"contents"`
 
-	contexts []struct {
+	Contexts []struct {
 		Id   Address  `json:"id"` // Link to a RSS3Items file
 		Name string   `json:"name"`
 		Tags []string `json:"tags"`
-	}
+	} `json:"contexts"`
 
 }
 
