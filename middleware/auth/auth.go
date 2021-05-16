@@ -59,11 +59,11 @@ func Auth() gin.HandlerFunc {
 
 			if !verification {
 				ctx.String(http.StatusUnauthorized, "Unauthorized. Missing authentication parameters.")
+				ctx.Abort()
 			}
 		} else {
 			ctx.String(http.StatusUnauthorized, "Unauthorized. Missing authentication parameters.")
+			ctx.Abort()
 		}
-
-		ctx.Next()
 	}
 }
