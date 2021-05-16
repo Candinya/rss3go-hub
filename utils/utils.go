@@ -19,36 +19,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package config
-
-import (
-	"gopkg.in/yaml.v2"
-	"os"
-)
-
-type Config struct {
-	Storage struct {
-		Type string `yaml:"type"`
-		Path string `yaml:"path"`
-	} `yaml:"storage"`
-
-	ItemPageSize string `yaml:"item_page_size"`
-}
-
-var GlobalConfig Config
-
-func LoadConfig(filename string) error {
-
-	data, err := os.ReadFile(filename)
-
-	if err != nil {
-		return err
-	}
-
-	if err := yaml.Unmarshal(data, &GlobalConfig); err != nil {
-		return err
-	}
-
-	return nil
-
-}
+package utils
