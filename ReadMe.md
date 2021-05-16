@@ -1,6 +1,8 @@
 # RSS 3 Go
 
-> An alternative version of [RSS3-Hub](https://github.com/NaturalSelectionLabs/RSS3-Hub) written in go
+> There's no hub in the RSS3 world. 
+> You are the hub, of all you have, of all you love.
+> Keep going.
 
 ## About
 
