@@ -22,6 +22,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package methods
 
 import (
+	"encoding/json"
+	"github.com/google/go-cmp/cmp"
 	"testing"
 )
 
@@ -30,7 +32,7 @@ func TestJson2RSS3Persona(t *testing.T) {
 	// RSS3Persona file: `persona:diygod` - `interface RSS3Persona`
 	// A persona DIYgod with a published item Never
 
-	demoPersona := `
+	demo := `
 {
     "id": "persona:diygod",
     "version": "rss3.io/version/v0.1.0-alpha.0",
@@ -84,9 +86,24 @@ func TestJson2RSS3Persona(t *testing.T) {
 }
 `
 
-	retPersona := Json2RSS3Persona(demoPersona)
+	var orig, coded interface{}
 
-	t.Log(retPersona)
+	ret := Json2RSS3Persona(demo)
+	retJsonByte := ret.ToJson()
+
+	//t.Log(string(retJsonByte))
+
+	if err := json.Unmarshal([]byte(demo), &orig); err != nil {
+		t.Error(err)
+	}
+	if err := json.Unmarshal(retJsonByte, &coded); err != nil {
+		t.Error(err)
+	}
+
+	if !cmp.Equal(orig, coded) {
+		t.Log(cmp.Diff(orig, coded))
+		t.Fail()
+	}
 
 }
 
@@ -94,7 +111,7 @@ func TestJson2RSS3Items(t *testing.T) {
 
 	// RSS3Items file: `items:diygod:never:comments` - `interface RSS3Items`
 
-	demoItems := `
+	demo := `
 {
     "id": "items:diygod:never:comments",
     "version": "rss3.io/version/v0.1.0-alpha.0",
@@ -130,16 +147,31 @@ func TestJson2RSS3Items(t *testing.T) {
 }
 `
 
-	retItems := Json2RSS3Items(demoItems)
+	var orig, coded interface{}
 
-	t.Log(retItems)
+	ret := Json2RSS3Items(demo)
+	retJsonByte := ret.ToJson()
+
+	//t.Log(string(retJsonByte))
+
+	if err := json.Unmarshal([]byte(demo), &orig); err != nil {
+		t.Error(err)
+	}
+	if err := json.Unmarshal(retJsonByte, &coded); err != nil {
+		t.Error(err)
+	}
+
+	if !cmp.Equal(orig, coded) {
+		t.Log(cmp.Diff(orig, coded))
+		t.Fail()
+	}
 }
 
 func TestJson2RSS3Link(t *testing.T) {
 
 	// RSS3Link file: `link:diygod:followers` - `interface RSS3Link`
 
-	demoLink := `
+	demo := `
 {
     "id": "link:diygod:followers",
     "version": "rss3.io/version/v0.1.0-alpha.0",
@@ -154,8 +186,23 @@ func TestJson2RSS3Link(t *testing.T) {
 }
 `
 
-	retLink := Json2RSS3Link(demoLink)
+	var orig, coded interface{}
 
-	t.Log(retLink)
+	ret := Json2RSS3Link(demo)
+	retJsonByte := ret.ToJson()
+
+	//t.Log(string(retJsonByte))
+
+	if err := json.Unmarshal([]byte(demo), &orig); err != nil {
+		t.Error(err)
+	}
+	if err := json.Unmarshal(retJsonByte, &coded); err != nil {
+		t.Error(err)
+	}
+
+	if !cmp.Equal(orig, coded) {
+		t.Log(cmp.Diff(orig, coded))
+		t.Fail()
+	}
 
 }

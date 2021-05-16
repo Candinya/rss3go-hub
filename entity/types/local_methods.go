@@ -19,31 +19,21 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package methods
+package types
 
-import (
-	"encoding/json"
-	"rss3go/entity/types"
-)
+import "encoding/json"
 
-func Json2RSS3Persona(personaJson string) types.RSS3Persona {
-	var persona types.RSS3Persona
-	_ = json.Unmarshal([]byte(personaJson), &persona)
-
-	return persona
+func (persona * RSS3Persona) ToJson() []byte {
+	personaJson, _ := json.Marshal(&persona)
+	return personaJson
 }
 
-func Json2RSS3Items(itemsJson string) types.RSS3Items {
-	var items types.RSS3Items
-	_ = json.Unmarshal([]byte(itemsJson), &items)
-
-	return items
+func (items * RSS3Items) ToJson() []byte {
+	itemsJson, _ := json.Marshal(&items)
+	return itemsJson
 }
 
-func Json2RSS3Link(linkJson string) types.RSS3Link {
-	var link types.RSS3Link
-	_ = json.Unmarshal([]byte(linkJson), &link)
-
-	return link
+func (link * RSS3Link) ToJson() []byte {
+	linkJson, _ := json.Marshal(&link)
+	return linkJson
 }
-

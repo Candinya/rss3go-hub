@@ -34,7 +34,7 @@ type RSS3Base struct {
 		Blocklist []Address `json:"blocklist"`
 		Allowlist []Address `json:"allowlist"`
 	} `json:"editors"`
-	Items     []interface{} `json:"items"`
+	//Items     []interface{} `json:"items"`
 	ItemsNext Address       `json:"items_next"`
 
 }
