@@ -1,6 +1,6 @@
 # RSS 3 Go
 
-> There's no hub in the RSS3 world. 
+> There's no centralized hub in the RSS3 world. 
 > You are the hub, of all you have, of all you love.
 > Keep going.
 
