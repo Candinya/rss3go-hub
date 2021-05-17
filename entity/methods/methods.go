@@ -26,23 +26,23 @@ import (
 	"rss3go/entity/types"
 )
 
-func Json2RSS3Persona(personaJson string) types.RSS3Persona {
+func Json2RSS3Persona(personaJson []byte) types.RSS3Persona {
 	var persona types.RSS3Persona
-	_ = json.Unmarshal([]byte(personaJson), &persona)
+	_ = json.Unmarshal(personaJson, &persona)
 
 	return persona
 }
 
-func Json2RSS3Items(itemsJson string) types.RSS3Items {
+func Json2RSS3Items(itemsJson []byte) types.RSS3Items {
 	var items types.RSS3Items
-	_ = json.Unmarshal([]byte(itemsJson), &items)
+	_ = json.Unmarshal(itemsJson, &items)
 
 	return items
 }
 
-func Json2RSS3Link(linkJson string) types.RSS3Link {
+func Json2RSS3Link(linkJson []byte) types.RSS3Link {
 	var link types.RSS3Link
-	_ = json.Unmarshal([]byte(linkJson), &link)
+	_ = json.Unmarshal(linkJson, &link)
 
 	return link
 }
