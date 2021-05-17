@@ -22,10 +22,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package auth
 
 import (
+	"bytes"
 	"crypto/md5"
 	"fmt"
 	"github.com/ethereum/go-ethereum/crypto/secp256k1"
 	"github.com/gin-gonic/gin"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -42,7 +44,10 @@ func Auth() gin.HandlerFunc {
 			personaIdBytes := []byte(personaId)
 			reqSignBytes := []byte(reqSign)
 
-			raw, err := ctx.GetRawData()
+			raw, err := ioutil.ReadAll(ctx.Request.Body)
+
+			// Write it back for future use
+			ctx.Request.Body = ioutil.NopCloser(bytes.NewBuffer(raw))
 
 			if err != nil {
 				fmt.Println(err.Error())
