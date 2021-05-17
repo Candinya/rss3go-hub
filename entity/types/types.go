@@ -30,7 +30,7 @@ type RSS3Base struct {
 	Type        string  `json:"type"`
 	DateCreated string  `json:"date_created"`
 	DateUpdated string  `json:"date_updated"`
-	Editors     struct {
+	Editors     *struct {
 		Blocklist []Address `json:"blocklist,omitempty"`
 		Allowlist []Address `json:"allowlist,omitempty"`
 	} `json:"editors,omitempty"`
@@ -85,7 +85,7 @@ type RSS3Link struct {
 type RSS3OtherPersona struct {
 	Id           Address `json:"id"`
 	Verification string  `json:"verification,omitempty"`
-	Name         string  `json:"name"`
+	Name         string  `json:"name,omitempty"`
 	Avatar       Address `json:"avatar,omitempty"`
 	Bio          string  `json:"bio,omitempty"`
 }

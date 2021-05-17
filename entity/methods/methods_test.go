@@ -32,7 +32,7 @@ func TestJson2RSS3Persona(t *testing.T) {
 	// RSS3Persona file: `persona:diygod` - `interface RSS3Persona`
 	// A persona DIYgod with a published item Never
 
-	demo := `
+	demo := []byte(`
 {
     "id": "persona:diygod",
     "version": "rss3.io/version/v0.1.0-alpha.0",
@@ -60,7 +60,7 @@ func TestJson2RSS3Persona(t *testing.T) {
 
     "items": [{
         "id": "item:diygod:never",
-        "authors": ["persona:diygod"],
+        "authors": [{"id": "persona:diygod"}],
         "title": "Never",
         "summary": "Never stop dreaming.",
         "date_published": "2021-05-08T16:56:35.529Z",
@@ -84,7 +84,7 @@ func TestJson2RSS3Persona(t *testing.T) {
     }],
     "items_next": "items:diygod:index2"
 }
-`
+`)
 
 	var orig, coded interface{}
 
@@ -93,7 +93,7 @@ func TestJson2RSS3Persona(t *testing.T) {
 
 	//t.Log(string(retJsonByte))
 
-	if err := json.Unmarshal([]byte(demo), &orig); err != nil {
+	if err := json.Unmarshal(demo, &orig); err != nil {
 		t.Error(err)
 	}
 	if err := json.Unmarshal(retJsonByte, &coded); err != nil {
@@ -111,7 +111,7 @@ func TestJson2RSS3Items(t *testing.T) {
 
 	// RSS3Items file: `items:diygod:never:comments` - `interface RSS3Items`
 
-	demo := `
+	demo := []byte(`
 {
     "id": "items:diygod:never:comments",
     "version": "rss3.io/version/v0.1.0-alpha.0",
@@ -119,7 +119,7 @@ func TestJson2RSS3Items(t *testing.T) {
     "date_created": "2009-05-01T00:00:00.000Z",
     "date_updated": "2021-05-08T16:56:35.529Z",
     "editors": {
-        "allowlist": "link:diygod:followings"
+        "allowlist": ["link:diygod:followings"]
     },
 
     "items": [{
@@ -145,7 +145,7 @@ func TestJson2RSS3Items(t *testing.T) {
         }]
     }]
 }
-`
+`)
 
 	var orig, coded interface{}
 
@@ -154,7 +154,7 @@ func TestJson2RSS3Items(t *testing.T) {
 
 	//t.Log(string(retJsonByte))
 
-	if err := json.Unmarshal([]byte(demo), &orig); err != nil {
+	if err := json.Unmarshal(demo, &orig); err != nil {
 		t.Error(err)
 	}
 	if err := json.Unmarshal(retJsonByte, &coded); err != nil {
@@ -171,7 +171,7 @@ func TestJson2RSS3Link(t *testing.T) {
 
 	// RSS3Link file: `link:diygod:followers` - `interface RSS3Link`
 
-	demo := `
+	demo := []byte(`
 {
     "id": "link:diygod:followers",
     "version": "rss3.io/version/v0.1.0-alpha.0",
@@ -179,12 +179,12 @@ func TestJson2RSS3Link(t *testing.T) {
     "date_created": "2009-05-01T00:00:00.000Z",
     "date_updated": "2021-05-08T16:56:35.529Z",
     "editors": {
-        "blocklist": "link:diygod:blocklist"
+        "blocklist": ["link:diygod:blocklist"]
     },
 
-    "items": ["persona:joshua", "persona:atlas", "persona:tuzi", "persona:zuia"]
+    "items": [{"id": "persona:joshua"}, {"id": "persona:atlas"}, {"id": "persona:tuzi"}, {"id": "persona:zuia"}]
 }
-`
+`)
 
 	var orig, coded interface{}
 
@@ -193,7 +193,7 @@ func TestJson2RSS3Link(t *testing.T) {
 
 	//t.Log(string(retJsonByte))
 
-	if err := json.Unmarshal([]byte(demo), &orig); err != nil {
+	if err := json.Unmarshal(demo, &orig); err != nil {
 		t.Error(err)
 	}
 	if err := json.Unmarshal(retJsonByte, &coded); err != nil {
