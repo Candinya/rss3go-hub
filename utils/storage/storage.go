@@ -25,6 +25,7 @@ import (
 	"log"
 	"os"
 	"rss3go/config"
+	"rss3go/entity/types"
 	"strings"
 )
 
@@ -36,7 +37,7 @@ func (e *TypeOfStorageUndefinedError) Error() string {
 	return "Storage type undefined: sType"
 }
 
-func Write(name string, content []byte) error {
+func Write(name types.Address, content []byte) error {
 
 	if config.GlobalConfig.Storage.Type == "local" {
 
@@ -52,7 +53,7 @@ func Write(name string, content []byte) error {
 	return &TypeOfStorageUndefinedError{config.GlobalConfig.Storage.Type}
 }
 
-func Read(name string) ([]byte, error) {
+func Read(name types.Address) ([]byte, error) {
 
 	if config.GlobalConfig.Storage.Type == "local" {
 
@@ -68,7 +69,7 @@ func Read(name string) ([]byte, error) {
 	return nil, &TypeOfStorageUndefinedError{config.GlobalConfig.Storage.Type}
 }
 
-func Exist(name string) (bool, error) {
+func Exist(name types.Address) (bool, error) {
 
 	if config.GlobalConfig.Storage.Type == "local" {
 
@@ -85,7 +86,7 @@ func Exist(name string) (bool, error) {
 	return false, &TypeOfStorageUndefinedError{config.GlobalConfig.Storage.Type}
 }
 
-func Rm(name string) error {
+func Rm(name types.Address) error {
 
 	if config.GlobalConfig.Storage.Type == "local" {
 

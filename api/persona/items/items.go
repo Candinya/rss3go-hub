@@ -22,6 +22,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package items
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"rss3go/entity/methods"
@@ -36,6 +37,16 @@ import (
 func NewHandler(ctx *gin.Context) {
 
 	personaId := ctx.Param("pid")
+
+	if exist, _ := storage.Exist(personaId); !exist {
+		// Doesn't exist
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"ok": false,
+			"message": "Sorry, but this persona doesn't exist",
+		})
+		return
+	}
 
 	var item types.RSS3Item
 
@@ -66,7 +77,24 @@ func NewHandler(ctx *gin.Context) {
 		// Update timestamps
 		item.DatePublished = time.Now().String()
 		item.DateModified = time.Now().String()
-		// item.Authors = todo: detect and append (if needed)
+
+		var needAppendAuthor bool = true
+
+		for _, i := range item.Authors {
+			if i.Id == personaId {
+				needAppendAuthor = false
+			}
+		}
+
+		if needAppendAuthor {
+
+			var newAuthor types.RSS3OtherPersona
+			newAuthor.Id = personaId
+
+			// Add other file?
+
+			item.Authors = append(item.Authors, newAuthor)
+		}
 
 		// Append to persona file
 		personaStruct.Items = append(personaStruct.Items, item)
@@ -98,33 +126,56 @@ func GetHandler(ctx *gin.Context) {
 	personaId := ctx.Param("pid")
 	itemId := ctx.Param("tid")
 
+	if exist, _ := storage.Exist(personaId); !exist {
+		// Doesn't exist
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"ok": false,
+			"message": "Sorry, but this persona doesn't exist",
+		})
+		return
+	}
+
 	var item_p *types.RSS3Item = nil
 
 	raw, _ := storage.Read(personaId) // Ignore error
 	personaStruct := methods.Json2RSS3Persona(raw)
 
-	for _, i := range personaStruct.Items {
-		if i.Id == itemId {
-			item_p = &i
-			break
-		}
-	}
-
-	if item_p == nil {
-		// Already exists error
-		ctx.JSON(http.StatusNotFound, gin.H{
-			"code": http.StatusNotFound,
-			"ok": false,
-			"message": "Sorry, but this item doesn't exist",
-		})
-	} else {
-		// Exists
+	if itemId == "" {
+		// return all
+		all, _ := json.Marshal(personaStruct.Items)
 		ctx.JSON(http.StatusOK, gin.H{
 			"code":    http.StatusOK,
 			"ok":      true,
-			"message": "Persona found",
-			"data":    item_p.ToJson(),
+			"message": "Item patched",
+			"data":    string(all),
 		})
+	} else {
+
+		for _, i := range personaStruct.Items {
+			if i.Id == itemId {
+				item_p = &i
+				break
+			}
+		}
+
+		if item_p == nil {
+			// Already exists error
+			ctx.JSON(http.StatusNotFound, gin.H{
+				"code": http.StatusNotFound,
+				"ok": false,
+				"message": "Sorry, but this item doesn't exist",
+			})
+		} else {
+			// Exists
+			ctx.JSON(http.StatusOK, gin.H{
+				"code":    http.StatusOK,
+				"ok":      true,
+				"message": "Persona found",
+				"data":    item_p.ToJson(),
+			})
+		}
+
 	}
 
 }
@@ -133,6 +184,16 @@ func ModifyHandler(ctx *gin.Context) {
 
 	personaId := ctx.Param("pid")
 	itemId := ctx.Param("tid")
+
+	if exist, _ := storage.Exist(personaId); !exist {
+		// Doesn't exist
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"ok": false,
+			"message": "Sorry, but this persona doesn't exist",
+		})
+		return
+	}
 
 	var item_p *types.RSS3Item = nil
 
@@ -208,6 +269,16 @@ func DeleteHandler(ctx *gin.Context) {
 
 	personaId := ctx.Param("pid")
 	itemId := ctx.Param("tid")
+
+	if exist, _ := storage.Exist(personaId); !exist {
+		// Doesn't exist
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"ok": false,
+			"message": "Sorry, but this persona doesn't exist",
+		})
+		return
+	}
 
 	var item_index int = -1
 
