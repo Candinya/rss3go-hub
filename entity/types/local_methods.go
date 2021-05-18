@@ -23,6 +23,11 @@ package types
 
 import "encoding/json"
 
+func (base * RSS3Base) ToJson() []byte {
+	baseJson, _ := json.Marshal(&base)
+	return baseJson
+}
+
 func (persona * RSS3Persona) ToJson() []byte {
 	personaJson, _ := json.Marshal(&persona)
 	return personaJson
@@ -36,4 +41,9 @@ func (items * RSS3Items) ToJson() []byte {
 func (link * RSS3Link) ToJson() []byte {
 	linkJson, _ := json.Marshal(&link)
 	return linkJson
+}
+
+func (item * RSS3Item) ToJson() []byte {
+	itemJson, _ := json.Marshal(&item)
+	return itemJson
 }
