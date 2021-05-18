@@ -27,10 +27,12 @@ import (
 	"rss3go/middleware/auth"
 )
 
-func Routers (e * gin.Engine) {
+func Routers (r * gin.RouterGroup) {
 
-	apiLinks := e.Group("/personas/:pid/links")
+	apiLinks := r.Group("/links")
 	{
+
+		apiLinks.GET("", links.GetHandler)
 
 		apiLinks.POST("", links.NewHandler)
 

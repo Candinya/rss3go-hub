@@ -25,6 +25,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"rss3go/api/persona"
 	"rss3go/middleware/auth"
+	"rss3go/routers/persona/items"
+	"rss3go/routers/persona/links"
 )
 
 func Routers (e *gin.Engine) {
@@ -42,6 +44,10 @@ func Routers (e *gin.Engine) {
 			apiPersonaSpecify.PATCH("", auth.Auth(), persona.ModifyHandler)
 
 			apiPersonaSpecify.DELETE("", auth.Auth(), persona.DeleteHandler)
+
+			items.Routers(apiPersonaSpecify)
+
+			links.Routers(apiPersonaSpecify)
 
 		}
 
