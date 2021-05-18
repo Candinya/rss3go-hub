@@ -29,7 +29,7 @@ import (
 	"rss3go/routers/page"
 	"rss3go/routers/persona"
 	"rss3go/routers/persona/items"
-	"rss3go/routers/persona/link"
+	"rss3go/routers/persona/links"
 )
 
 
@@ -49,7 +49,7 @@ func main() {
 
 	log.Println("Initializing routers...")
 
-	routers.Include(page.Routers, persona.Routers, items.Routers, link.Routers)
+	routers.Include(page.Routers, persona.Routers, items.Routers, links.Routers)
 
 	r := routers.Init()
 

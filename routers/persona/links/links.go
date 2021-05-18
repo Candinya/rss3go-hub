@@ -19,11 +19,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package link
+package links
 
 import (
 	"github.com/gin-gonic/gin"
-	"rss3go/api/persona/link"
+	"rss3go/api/persona/links"
 	"rss3go/middleware/auth"
 )
 
@@ -32,14 +32,14 @@ func Routers (e * gin.Engine) {
 	apiLinks := e.Group("/personas/:pid/links")
 	{
 
-		apiLinks.POST("", link.NewHandler)
+		apiLinks.POST("", links.NewHandler)
 
 		apiLinksSpecify := apiLinks.Group("/:lid")
 		{
 
-			apiLinksSpecify.PATCH("", auth.Auth(), link.ModifyHandler)
+			apiLinksSpecify.PATCH("", auth.Auth(), links.ModifyHandler)
 
-			apiLinksSpecify.DELETE("", auth.Auth(), link.DeleteHandler)
+			apiLinksSpecify.DELETE("", auth.Auth(), links.DeleteHandler)
 
 		}
 

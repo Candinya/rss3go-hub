@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package link
+package links
 
 import (
 	"github.com/gin-gonic/gin"
