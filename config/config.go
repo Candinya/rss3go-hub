@@ -31,8 +31,6 @@ type Config struct {
 		Type string `yaml:"type"`
 		Path string `yaml:"path"`
 	} `yaml:"storage"`
-
-	ItemPageSize string `yaml:"item_page_size"`
 }
 
 var GlobalConfig Config

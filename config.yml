@@ -5,5 +5,3 @@
 storage:
   type: 'local'
   path: 'storage/'
-
-item_page_size: 2
