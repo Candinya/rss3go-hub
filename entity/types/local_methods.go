@@ -47,3 +47,8 @@ func (item * RSS3Item) ToJson() []byte {
 	itemJson, _ := json.Marshal(&item)
 	return itemJson
 }
+
+func (link * RSS3PersonaLink) ToJson() []byte {
+	linkJson, _ := json.Marshal(&link)
+	return linkJson
+}
