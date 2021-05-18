@@ -23,22 +23,226 @@ package links
 
 import (
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"rss3go/entity/methods"
+	"rss3go/entity/types"
+	"rss3go/tools"
+	"rss3go/utils/storage"
 )
 
-// todo: finish this
+// todo: test this
 
 func NewHandler(ctx *gin.Context) {
+
+	personaId := ctx.Param("pid")
+
+	var link types.RSS3PersonaLink
+
+	_ = ctx.BindJSON(&link) // Ignore error
+
+	raw, _ := storage.Read(personaId) // Ignore error
+	personaStruct := methods.Json2RSS3Persona(raw)
+
+	var exist bool = false
+
+	for _, i := range personaStruct.Links {
+		if i.Id == link.Id {
+			exist = true
+			break
+		}
+	}
+
+	if exist {
+		// Already exists
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"code": http.StatusBadRequest,
+			"ok": false,
+			"message": "Sorry, but this link already exists",
+		})
+	} else {
+		// Doesn't exist
+
+		// Append to persona file
+		personaStruct.Links = append(personaStruct.Links, link)
+
+		// Save
+		if err := storage.Write(personaId, personaStruct.ToJson()); err != nil {
+			// Save error
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusInternalServerError,
+				"ok": false,
+				"message": err.Error(),
+			})
+		} else {
+			// No error
+			ctx.JSON(http.StatusOK, gin.H{
+				"code":    http.StatusOK,
+				"ok":      true,
+				"message": "Link saved",
+				"data":    link.ToJson(),
+			})
+		}
+
+	}
 
 }
 
 func GetHandler(ctx *gin.Context) {
 
+	personaId := ctx.Param("pid")
+	linkId := ctx.Param("lid")
+
+	var link_p *types.RSS3PersonaLink = nil
+
+	raw, _ := storage.Read(personaId) // Ignore error
+	personaStruct := methods.Json2RSS3Persona(raw)
+
+	for _, i := range personaStruct.Links {
+		if i.Id == linkId {
+			link_p = &i
+			break
+		}
+	}
+
+	if link_p == nil {
+		// Already exists error
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"ok": false,
+			"message": "Sorry, but this link doesn't exist",
+		})
+	} else {
+		// Exists
+		ctx.JSON(http.StatusOK, gin.H{
+			"code":    http.StatusOK,
+			"ok":      true,
+			"message": "Persona found",
+			"data":    link_p.ToJson(),
+		})
+	}
+
 }
 
 func ModifyHandler(ctx *gin.Context) {
 
+	personaId := ctx.Param("pid")
+	linkId := ctx.Param("lid")
+
+	var link_p *types.RSS3PersonaLink = nil
+
+	raw, _ := storage.Read(personaId) // Ignore error
+	personaStruct := methods.Json2RSS3Persona(raw)
+
+	for _, i := range personaStruct.Links {
+		if i.Id == linkId {
+			link_p = &i
+			break
+		}
+	}
+
+	if link_p == nil {
+		// Doesn't exist
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"ok": false,
+			"message": "Sorry, but this link doesn't exist",
+		})
+	} else {
+		// Exists
+
+		var patch interface{}
+
+		if err := ctx.BindJSON(&patch); err != nil {
+			// Parse error
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusInternalServerError,
+				"ok": false,
+				"message": err.Error(),
+			})
+		} else {
+			// Patch parsed
+
+			if err := tools.DeepMergePersonaLink(link_p, patch); err != nil {
+				// Deep Merge Error
+				ctx.JSON(http.StatusInternalServerError, gin.H{
+					"code": http.StatusInternalServerError,
+					"ok": false,
+					"message": err.Error(),
+				})
+			} else {
+
+				// Save persona
+				if err := storage.Write(personaId, personaStruct.ToJson()); err != nil {
+					// Storage API error
+					ctx.JSON(http.StatusInternalServerError, gin.H{
+						"code": http.StatusInternalServerError,
+						"ok": false,
+						"message": err.Error(),
+					})
+				} else {
+					// No error
+					ctx.JSON(http.StatusOK, gin.H{
+						"code":    http.StatusOK,
+						"ok":      true,
+						"message": "Link patched",
+						"data":    link_p.ToJson(),
+					})
+				}
+			}
+
+		}
+	}
+
 }
 
 func DeleteHandler(ctx *gin.Context) {
+
+	personaId := ctx.Param("pid")
+	linkId := ctx.Param("lid")
+
+	var link_index int = -1
+
+	raw, _ := storage.Read(personaId) // Ignore error
+	personaStruct := methods.Json2RSS3Persona(raw)
+
+	for index, i := range personaStruct.Links {
+		if i.Id == linkId {
+			link_index = index
+			break
+		}
+	}
+
+	if link_index == -1 {
+		// Doesn't exist
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"ok": false,
+			"message": "Sorry, but this link doesn't exist",
+		})
+	} else {
+		// Exists
+
+		personaStruct.Links = append(
+			personaStruct.Links[:link_index],
+			personaStruct.Links[link_index+1:]...
+		)
+
+		// Save persona
+		if err := storage.Write(personaId, personaStruct.ToJson()); err != nil {
+			// Storage API error
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusInternalServerError,
+				"ok": false,
+				"message": err.Error(),
+			})
+		} else {
+			// No error
+			ctx.JSON(http.StatusOK, gin.H{
+				"code":    http.StatusOK,
+				"ok":      true,
+				"message": "Link deleted",
+			})
+		}
+	}
 
 }

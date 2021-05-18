@@ -23,23 +23,235 @@ package items
 
 import (
 	"github.com/gin-gonic/gin"
-	"rss3go/entity"
+	"net/http"
+	"rss3go/entity/methods"
+	"rss3go/entity/types"
+	"rss3go/tools"
+	"rss3go/utils/storage"
+	"time"
 )
 
-// todo: finish this
+// todo: test this
 
 func NewHandler(ctx *gin.Context) {
+
+	personaId := ctx.Param("pid")
+
+	var item types.RSS3Item
+
+	_ = ctx.BindJSON(&item) // Ignore error
+
+	raw, _ := storage.Read(personaId) // Ignore error
+	personaStruct := methods.Json2RSS3Persona(raw)
+
+	var exist bool = false
+
+	for _, i := range personaStruct.Items {
+		if i.Id == item.Id {
+			exist = true
+			break
+		}
+	}
+
+	if exist {
+		// Already exists
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"code": http.StatusBadRequest,
+			"ok": false,
+			"message": "Sorry, but this item already exists",
+		})
+	} else {
+		// Doesn't exist
+
+		// Update timestamps
+		item.DatePublished = time.Now().String()
+		item.DateModified = time.Now().String()
+		// item.Authors = todo: detect and append (if needed)
+
+		// Append to persona file
+		personaStruct.Items = append(personaStruct.Items, item)
+
+		// Save
+		if err := storage.Write(personaId, personaStruct.ToJson()); err != nil {
+			// Save error
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusInternalServerError,
+				"ok": false,
+				"message": err.Error(),
+			})
+		} else {
+			// No error
+			ctx.JSON(http.StatusOK, gin.H{
+				"code":    http.StatusOK,
+				"ok":      true,
+				"message": "Item saved",
+				"data":    item.ToJson(),
+			})
+		}
+
+	}
 
 }
 
 func GetHandler(ctx *gin.Context) {
 
+	personaId := ctx.Param("pid")
+	itemId := ctx.Param("tid")
+
+	var item_p *types.RSS3Item = nil
+
+	raw, _ := storage.Read(personaId) // Ignore error
+	personaStruct := methods.Json2RSS3Persona(raw)
+
+	for _, i := range personaStruct.Items {
+		if i.Id == itemId {
+			item_p = &i
+			break
+		}
+	}
+
+	if item_p == nil {
+		// Already exists error
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"ok": false,
+			"message": "Sorry, but this item doesn't exist",
+		})
+	} else {
+		// Exists
+		ctx.JSON(http.StatusOK, gin.H{
+			"code":    http.StatusOK,
+			"ok":      true,
+			"message": "Persona found",
+			"data":    item_p.ToJson(),
+		})
+	}
+
 }
 
 func ModifyHandler(ctx *gin.Context) {
 
+	personaId := ctx.Param("pid")
+	itemId := ctx.Param("tid")
+
+	var item_p *types.RSS3Item = nil
+
+	raw, _ := storage.Read(personaId) // Ignore error
+	personaStruct := methods.Json2RSS3Persona(raw)
+
+	for _, i := range personaStruct.Items {
+		if i.Id == itemId {
+			item_p = &i
+			break
+		}
+	}
+
+	if item_p == nil {
+		// Doesn't exist
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"ok": false,
+			"message": "Sorry, but this item doesn't exist",
+		})
+	} else {
+		// Exists
+
+		var patch interface{}
+
+		if err := ctx.BindJSON(&patch); err != nil {
+			// Parse error
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusInternalServerError,
+				"ok": false,
+				"message": err.Error(),
+			})
+		} else {
+			// Patch parsed
+
+			if err := tools.DeepMergeItem(item_p, patch); err != nil {
+				// Deep Merge Error
+				ctx.JSON(http.StatusInternalServerError, gin.H{
+					"code": http.StatusInternalServerError,
+					"ok": false,
+					"message": err.Error(),
+				})
+			} else {
+
+				// Update timestamps
+				item_p.DateModified = time.Now().String()
+
+				// Save persona
+				if err := storage.Write(personaId, personaStruct.ToJson()); err != nil {
+					// Storage API error
+					ctx.JSON(http.StatusInternalServerError, gin.H{
+						"code": http.StatusInternalServerError,
+						"ok": false,
+						"message": err.Error(),
+					})
+				} else {
+					// No error
+					ctx.JSON(http.StatusOK, gin.H{
+						"code":    http.StatusOK,
+						"ok":      true,
+						"message": "Item patched",
+						"data":    item_p.ToJson(),
+					})
+				}
+			}
+
+		}
+	}
+
 }
 
 func DeleteHandler(ctx *gin.Context) {
+
+	personaId := ctx.Param("pid")
+	itemId := ctx.Param("tid")
+
+	var item_index int = -1
+
+	raw, _ := storage.Read(personaId) // Ignore error
+	personaStruct := methods.Json2RSS3Persona(raw)
+
+	for index, i := range personaStruct.Items {
+		if i.Id == itemId {
+			item_index = index
+			break
+		}
+	}
+
+	if item_index == -1 {
+		// Doesn't exist
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"ok": false,
+			"message": "Sorry, but this item doesn't exist",
+		})
+	} else {
+		// Exists
+
+		personaStruct.Items = append(
+			personaStruct.Items[:item_index],
+			personaStruct.Items[item_index+1:]...
+		)
+
+		// Save persona
+		if err := storage.Write(personaId, personaStruct.ToJson()); err != nil {
+			// Storage API error
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusInternalServerError,
+				"ok": false,
+				"message": err.Error(),
+			})
+		} else {
+			// No error
+			ctx.JSON(http.StatusOK, gin.H{
+				"code":    http.StatusOK,
+				"ok":      true,
+				"message": "Item deleted",
+			})
+		}
+	}
 
 }
