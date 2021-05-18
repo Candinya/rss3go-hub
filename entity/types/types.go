@@ -53,13 +53,10 @@ type RSS3Persona struct {
 		Tags   []string `json:"tags,omitempty"`
 	} `json:"profile"`
 
-	Links []struct {
-		Id   Address  `json:"id"`
-		Name string   `json:"name"`
-		Tags []string `json:"tags,omitempty"`
-	} `json:"links,omitempty"`
+	Links []RSS3PersonaLink `json:"links,omitempty"`
 
 	Items  []RSS3Item  `json:"items"`
+
 	Assets interface{} `json:"assets,omitempty"`
 }
 
@@ -114,5 +111,11 @@ type RSS3Item struct {
 		Tags []string `json:"tags,omitempty"`
 	} `json:"contexts,omitempty"`
 
+}
+
+type RSS3PersonaLink struct {
+	Id   Address  `json:"id"`
+	Name string   `json:"name"`
+	Tags []string `json:"tags,omitempty"`
 }
 

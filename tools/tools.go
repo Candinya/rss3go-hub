@@ -61,3 +61,27 @@ func DeepMergeLink (old types.RSS3Link, patch interface{}) (types.RSS3Link, erro
 
 	return old, err
 }
+
+func DeepMergeItem (old *types.RSS3Item, patch interface{}) error {
+
+	var patchItem types.RSS3Item
+
+	if err := mergo.Map(&patchItem, patch); err != nil {
+		return err
+	}
+	err := mergo.Merge(old, patchItem, mergo.WithOverride)
+
+	return err
+}
+
+func DeepMergePersonaLink (old *types.RSS3PersonaLink, patch interface{}) error {
+
+	var patchPersonaLink types.RSS3PersonaLink
+
+	if err := mergo.Map(&patchPersonaLink, patch); err != nil {
+		return err
+	}
+	err := mergo.Merge(old, patchPersonaLink, mergo.WithOverride)
+
+	return err
+}
