@@ -28,7 +28,9 @@ import (
 	"github.com/ethereum/go-ethereum/crypto/secp256k1"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"rss3go/entity/methods"
 )
 
 // Todo: test this.
@@ -36,29 +38,38 @@ import (
 func Auth() gin.HandlerFunc {
 	return func (ctx * gin.Context) {
 
+		raw, err := ioutil.ReadAll(ctx.Request.Body)
+
+		if err != nil {
+			ctx.Abort()
+			log.Println(err.Error())
+		}
+
+		ctx.Request.Body = ioutil.NopCloser(bytes.NewBuffer(raw))
+
 		personaId := ctx.Param("pid")
-		reqSign := ctx.Request.Header.Get("sign")
+
+		if personaId == "" {
+			// May POST new persona
+
+			persona := methods.Json2RSS3Persona(raw)
+
+			personaId = persona.Id
+		}
+
+		reqSign := ctx.Request.Header.Get("signature")
 
 		if personaId != "" && reqSign != "" {
 
 			personaIdBytes := []byte(personaId)
 			reqSignBytes := []byte(reqSign)
 
-			raw, err := ioutil.ReadAll(ctx.Request.Body)
-
-			// Write it back for future use
-			ctx.Request.Body = ioutil.NopCloser(bytes.NewBuffer(raw))
-
-			if err != nil {
-				fmt.Println(err.Error())
-			}
-
 			dataProcessed := fmt.Sprintf("%s%s", ctx.FullPath(), raw)
 
 			dataBytes := []byte(dataProcessed)
 			md5hash := md5.Sum(dataBytes)
 
-			fmt.Printf("%x", md5hash)
+			log.Printf("%x", md5hash)
 
 			verification := secp256k1.VerifySignature(personaIdBytes, md5hash[:], reqSignBytes)
 
