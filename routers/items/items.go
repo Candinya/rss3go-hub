@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package item
+package items
 
 import (
 	"github.com/gin-gonic/gin"
@@ -32,16 +32,16 @@ func Routers (e * gin.Engine) {
 	apiItems := e.Group("/personas/:pid/items")
 	{
 
-		apiItems.GET("", item.GetHandler)
+		apiItems.GET("", items.GetHandler)
 
-		apiItems.POST("", auth.Auth(), item.NewHandler)
+		apiItems.POST("", auth.Auth(), items.NewHandler)
 
 		apiItemsSpecify := apiItems.Group("/:tid")
 		{
 
-			apiItemsSpecify.PATCH("", auth.Auth(), item.ModifyHandler)
+			apiItemsSpecify.PATCH("", auth.Auth(), items.ModifyHandler)
 
-			apiItemsSpecify.DELETE("", auth.Auth(), item.DeleteHandler)
+			apiItemsSpecify.DELETE("", auth.Auth(), items.DeleteHandler)
 
 		}
 
