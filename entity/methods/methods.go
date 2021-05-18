@@ -26,6 +26,13 @@ import (
 	"rss3go/entity/types"
 )
 
+func Json2RSS3Base(baseJson []byte) types.RSS3Base {
+	var base types.RSS3Base
+	_ = json.Unmarshal(baseJson, &base)
+
+	return base
+}
+
 func Json2RSS3Persona(personaJson []byte) types.RSS3Persona {
 	var persona types.RSS3Persona
 	_ = json.Unmarshal(personaJson, &persona)
