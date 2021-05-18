@@ -27,6 +27,7 @@ import (
 )
 
 type Config struct {
+	Debug bool `yaml:"debug"`
 	Storage struct {
 		Type string `yaml:"type"`
 		Path string `yaml:"path"`

@@ -2,6 +2,7 @@
 # By Candinya
 # Copyright (C) 2021 Nyawork, Candinya
 
+debug: true
 storage:
   type: 'local'
   path: 'storage/'

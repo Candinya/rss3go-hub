@@ -23,6 +23,7 @@ package main
 
 import (
 	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 	"log"
 	"rss3go/config"
 	"rss3go/routers"
@@ -43,6 +44,12 @@ func main() {
 
 	log.Println("Config loaded successfully.")
 
+	if config.GlobalConfig.Debug {
+		log.Println("Working on debug mode")
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
 	// Init routers
 
 	log.Println("Initializing routers...")
@@ -56,8 +63,6 @@ func main() {
 	r.Use(cors.Default())
 
 	log.Println("Starting gin server...")
-
-	//gin.SetMode(gin.ReleaseMode)
 
 	if err := r.Run(); err != nil {
 		panic(err)
