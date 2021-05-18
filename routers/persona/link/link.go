@@ -23,7 +23,7 @@ package link
 
 import (
 	"github.com/gin-gonic/gin"
-	"rss3go/api/link"
+	"rss3go/api/persona/link"
 	"rss3go/middleware/auth"
 )
 

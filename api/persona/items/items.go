@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package item
+package items
 
 import (
 	"github.com/gin-gonic/gin"
@@ -27,34 +27,6 @@ import (
 )
 
 // todo: finish this
-
-func (item * entity.RSS3Item) getMeta(id * int) {
-
-}
-
-func (item * entity.RSS3Item) getFull(id * int) {
-
-}
-
-func (item * entity.RSS3Item) addNew() {
-
-}
-
-func (item * entity.RSS3Item) setWhat() {
-
-}
-
-func (item * entity.RSS3Item) setFull() {
-
-}
-
-func (item * entity.RSS3Item) setChanged() {
-
-}
-
-func (item * entity.RSS3Item) del() {
-
-}
 
 func NewHandler(ctx *gin.Context) {
 

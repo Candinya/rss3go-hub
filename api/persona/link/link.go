@@ -23,38 +23,9 @@ package link
 
 import (
 	"github.com/gin-gonic/gin"
-	"rss3go/entity"
 )
 
 // todo: finish this
-
-func (link * entity.RSS3Link) getMeta(id * int) {
-
-}
-
-func (link * entity.RSS3Link) getFull(id * int) {
-
-}
-
-func (link * entity.RSS3Link) addNew() {
-
-}
-
-func (link * entity.RSS3Link) setWhat() {
-
-}
-
-func (link * entity.RSS3Link) setFull() {
-
-}
-
-func (link * entity.RSS3Link) setChanged() {
-
-}
-
-func (link * entity.RSS3Link) del() {
-
-}
 
 func NewHandler(ctx *gin.Context) {
 
