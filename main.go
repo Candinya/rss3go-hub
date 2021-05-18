@@ -26,10 +26,10 @@ import (
 	"log"
 	"rss3go/config"
 	"rss3go/routers"
-	"rss3go/routers/items"
-	"rss3go/routers/link"
 	"rss3go/routers/page"
 	"rss3go/routers/persona"
+	"rss3go/routers/persona/items"
+	"rss3go/routers/persona/link"
 )
 
 
