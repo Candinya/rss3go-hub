@@ -14,9 +14,9 @@ Check [RSS3-Hub](https://github.com/NaturalSelectionLabs/RSS3-Hub/) and [RSS3](h
 
 ## Auth
 
-RSS3-Hub is using `secp256k1` as auth function. 
-In addition, in RSS3Go I *may* deploy `cv25519` as another auth curve function.
-Check [SafeCurves](https://safecurves.cr.yp.to/) for more information.
+RSS3-Hub is using `eth-crypto` as auth function now.
+
+But, there seems to be no such crypto library for go. So I might have to implement one.
 
 For RSS3-Hub compatible auth methods, please check [RSS3-Hub#authorization](https://github.com/NaturalSelectionLabs/RSS3-Hub#authorization) for detailed information.
 
