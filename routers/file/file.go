@@ -19,54 +19,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package main
+package file
 
 import (
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"log"
-	"rss3go/config"
-	"rss3go/routers"
-	"rss3go/routers/file"
-	"rss3go/routers/page"
-	"rss3go/routers/persona"
+	"rss3go/handler/file"
 )
 
-
-func main() {
-
-	// Load config
-
-	log.Println("Loading config...")
-
-	if err := config.LoadConfig("config.yml"); err != nil {
-		panic(err)
-	}
-
-	log.Println("Config loaded successfully.")
-
-	if config.GlobalConfig.Debug {
-		log.Println("Working on debug mode")
-	} else {
-		gin.SetMode(gin.ReleaseMode)
-	}
-
-	// Init routers
-
-	log.Println("Initializing routers...")
-
-	routers.Include(page.Routers, persona.Routers, file.Routers)
-
-	r := routers.Init()
-
-	log.Println("Routers initialized successfully.")
-
-	r.Use(cors.Default())
-
-	log.Println("Starting gin server...")
-
-	if err := r.Run(); err != nil {
-		panic(err)
-	}
-
+func Routers (e *gin.Engine) {
+	e.GET("/file/:fid", file.GetHandler)
 }
