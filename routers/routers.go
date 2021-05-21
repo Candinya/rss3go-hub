@@ -27,7 +27,7 @@ import (
 
 type Option func(*gin.Engine)
 
-var options = []Option{}
+var options []Option
 
 // Include : Register routers
 func Include (opts ... Option) {
