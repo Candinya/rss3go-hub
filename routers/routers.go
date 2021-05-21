@@ -29,7 +29,7 @@ type Option func(*gin.Engine)
 
 var options = []Option{}
 
-// Register routers
+// Include : Register routers
 func Include (opts ... Option) {
 	options = append(options, opts...)
 }

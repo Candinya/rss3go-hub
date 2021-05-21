@@ -23,7 +23,7 @@ package items
 
 import (
 	"github.com/gin-gonic/gin"
-	"rss3go/api/persona/items"
+	"rss3go/handler/persona/items"
 	"rss3go/middleware/auth"
 )
 

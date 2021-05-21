@@ -23,7 +23,7 @@ package persona
 
 import (
 	"github.com/gin-gonic/gin"
-	"rss3go/api/persona"
+	"rss3go/handler/persona"
 	"rss3go/middleware/auth"
 	"rss3go/routers/persona/items"
 	"rss3go/routers/persona/links"
