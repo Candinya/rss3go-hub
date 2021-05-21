@@ -27,168 +27,83 @@ import (
 	"testing"
 )
 
-func TestJson2RSS3Persona(t *testing.T) {
+func TestJson2RSS3(t *testing.T) {
 
 	// RSS3Persona file: `persona:diygod` - `interface RSS3Persona`
 	// A persona DIYgod with a published item Never
 
 	demo := []byte(`
 {
-    "id": "persona:diygod",
-    "version": "rss3.io/version/v0.1.0-alpha.0",
-    "type": "persona",
+    "id": "0xC8b960D09C0078c18Dcbe7eB9AB9d816BcCa8944",
+    "@version": "rss3.io/version/v0.1.0-rc.0",
     "date_created": "2009-05-01T00:00:00.000Z",
     "date_updated": "2021-05-08T16:56:35.529Z",
 
     "profile": {
         "name": "DIYgod",
-        "avatar": "dweb://diygod.jpg",
+        "avatar": ["dweb://diygod.jpg", "https://example.com/diygod.jpg"],
         "bio": "写代码是热爱，写到世界充满爱！",
         "tags": ["demo", "lovely", "technology"]
     },
 
-    "links": [{
-        "id": "link:diygod:followings",
-        "name": "Followings"
-    }, {
-        "id": "link:diygod:followers",
-        "name": "Followers"
-    }, {
-        "id": "link:diygod:blocklist",
-        "name": "Blocklist"
-    }],
-
     "items": [{
-        "id": "item:diygod:never",
-        "authors": [{"id": "persona:diygod"}],
-        "title": "Never",
-        "summary": "Never stop dreaming.",
+        "id": "0xC8b960D09C0078c18Dcbe7eB9AB9d816BcCa8944-item-1",
+        "authors": ["0xC8b960D09C0078c18Dcbe7eB9AB9d816BcCa8944"],
+        "summary": "Yes!!",
+        "date_published": "2021-05-09T16:56:35.529Z",
+        "date_modified": "2021-05-09T16:56:35.529Z",
+
+        "type": "comment",
+        "upstream": "0xC8b960D09C0078c18Dcbe7eB9AB9d816BcCa8944-item-0"
+    }, {
+        "id": "0xC8b960D09C0078c18Dcbe7eB9AB9d816BcCa8944-item-0",
+        "authors": ["0xC8b960D09C0078c18Dcbe7eB9AB9d816BcCa8944"],
+        "title": "Hello World",
+        "summary": "Hello, this is the first item of RSS3.",
         "date_published": "2021-05-08T16:56:35.529Z",
         "date_modified": "2021-05-08T16:56:35.529Z",
 
         "contents": [{
-            "id": "dweb://never.html",
+            "file": ["dweb://never.html", "https://example.com/never.html"],
             "mime_type": "text/html"
         }, {
-            "id": "dweb://never.jpg",
+            "file": ["dweb://never.jpg"],
             "mime_type": "image/jpeg"
         }],
 
-        "contexts": [{
-            "id": "items:diygod:never:comments",
-            "name": "Comments"
+        "@contexts": [{
+            "type": "comment",
+            "list": ["0xC8b960D09C0078c18Dcbe7eB9AB9d816BcCa8944-item-1"]
         }, {
-            "id": "items:diygod:never:likes",
-            "name": "Likes"
+            "type": "like",
+            "list": ["0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"]
         }]
     }],
-    "items_next": "items:diygod:index2"
-}
-`)
+    "items_next": "0xC8b960D09C0078c18Dcbe7eB9AB9d816BcCa8944-items-0",
 
-	var orig, coded interface{}
+    "links": [{
+        "type": "follow",
+        "list": ["0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"]
+    }, {
+        "type": "superfollow",
+        "list": ["0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"]
+    }],
+    "@backlinks": [{
+        "type": "follow",
+        "list": ["0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"]
+    }],
 
-	ret := Json2RSS3Persona(demo)
-	retJsonByte := ret.ToJson()
-
-	//t.Log(string(retJsonByte))
-
-	if err := json.Unmarshal(demo, &orig); err != nil {
-		t.Error(err)
-	}
-	if err := json.Unmarshal(retJsonByte, &coded); err != nil {
-		t.Error(err)
-	}
-
-	if !cmp.Equal(orig, coded) {
-		t.Log(cmp.Diff(orig, coded))
-		t.Fail()
-	}
-
-}
-
-func TestJson2RSS3Items(t *testing.T) {
-
-	// RSS3Items file: `items:diygod:never:comments` - `interface RSS3Items`
-
-	demo := []byte(`
-{
-    "id": "items:diygod:never:comments",
-    "version": "rss3.io/version/v0.1.0-alpha.0",
-    "type": "items",
-    "date_created": "2009-05-01T00:00:00.000Z",
-    "date_updated": "2021-05-08T16:56:35.529Z",
-    "editors": {
-        "allowlist": ["link:diygod:followings"]
-    },
-
-    "items": [{
-        "id": "items:diygod:never:comments:0",
-        "authors": [{
-            "id": "persona:joshua",
-            "verification": "xxxxx",
-            "name": "Joshua",
-            "avatar": "dweb://joshua.jpg"
-        }],
-        "title": "DIYgod is the best!",
-        "date_published": "2021-05-08T16:56:35.529Z",
-        "date_modified": "2021-05-08T16:56:35.529Z",
-
-        "contents": [{
-            "id": "dweb://best.jpg",
-            "mime_type": "image/jpeg"
-        }],
-
-        "contexts": [{
-            "id": "items:diygod:never:comments:0:sub-comments",
-            "name": "Sub-Comments"
-        }]
+    "assets": [{
+        "type": "some experience point",
+        "content": "100"
     }]
 }
+
 `)
 
 	var orig, coded interface{}
 
-	ret := Json2RSS3Items(demo)
-	retJsonByte := ret.ToJson()
-
-	//t.Log(string(retJsonByte))
-
-	if err := json.Unmarshal(demo, &orig); err != nil {
-		t.Error(err)
-	}
-	if err := json.Unmarshal(retJsonByte, &coded); err != nil {
-		t.Error(err)
-	}
-
-	if !cmp.Equal(orig, coded) {
-		t.Log(cmp.Diff(orig, coded))
-		t.Fail()
-	}
-}
-
-func TestJson2RSS3Link(t *testing.T) {
-
-	// RSS3Link file: `link:diygod:followers` - `interface RSS3Link`
-
-	demo := []byte(`
-{
-    "id": "link:diygod:followers",
-    "version": "rss3.io/version/v0.1.0-alpha.0",
-    "type": "link",
-    "date_created": "2009-05-01T00:00:00.000Z",
-    "date_updated": "2021-05-08T16:56:35.529Z",
-    "editors": {
-        "blocklist": ["link:diygod:blocklist"]
-    },
-
-    "items": [{"id": "persona:joshua"}, {"id": "persona:atlas"}, {"id": "persona:tuzi"}, {"id": "persona:zuia"}]
-}
-`)
-
-	var orig, coded interface{}
-
-	ret := Json2RSS3Link(demo)
+	ret := Json2RSS3(demo)
 	retJsonByte := ret.ToJson()
 
 	//t.Log(string(retJsonByte))
@@ -206,3 +121,4 @@ func TestJson2RSS3Link(t *testing.T) {
 	}
 
 }
+

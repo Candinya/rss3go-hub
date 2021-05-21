@@ -33,9 +33,9 @@ func Json2RSS3Base(baseJson []byte) types.RSS3Base {
 	return base
 }
 
-func Json2RSS3Persona(personaJson []byte) types.RSS3Persona {
-	var persona types.RSS3Persona
-	_ = json.Unmarshal(personaJson, &persona)
+func Json2RSS3(baseJson []byte) types.RSS3 {
+	var persona types.RSS3
+	_ = json.Unmarshal(baseJson, &persona)
 
 	return persona
 }
@@ -47,10 +47,17 @@ func Json2RSS3Items(itemsJson []byte) types.RSS3Items {
 	return items
 }
 
-func Json2RSS3Link(linkJson []byte) types.RSS3Link {
-	var link types.RSS3Link
-	_ = json.Unmarshal(linkJson, &link)
+func Json2RSS3List(linkJson []byte) types.RSS3List {
+	var list types.RSS3List
+	_ = json.Unmarshal(linkJson, &list)
 
-	return link
+	return list
+}
+
+func Json2RSS3Item(itemsJson []byte) types.RSS3Item {
+	var item types.RSS3Item
+	_ = json.Unmarshal(itemsJson, &item)
+
+	return item
 }
 

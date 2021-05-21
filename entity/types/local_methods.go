@@ -28,7 +28,7 @@ func (base * RSS3Base) ToJson() []byte {
 	return baseJson
 }
 
-func (persona * RSS3Persona) ToJson() []byte {
+func (persona * RSS3) ToJson() []byte {
 	personaJson, _ := json.Marshal(&persona)
 	return personaJson
 }
@@ -38,17 +38,12 @@ func (items * RSS3Items) ToJson() []byte {
 	return itemsJson
 }
 
-func (link * RSS3Link) ToJson() []byte {
-	linkJson, _ := json.Marshal(&link)
-	return linkJson
+func (list * RSS3List) ToJson() []byte {
+	listJson, _ := json.Marshal(&list)
+	return listJson
 }
 
 func (item * RSS3Item) ToJson() []byte {
 	itemJson, _ := json.Marshal(&item)
 	return itemJson
-}
-
-func (link * RSS3PersonaLink) ToJson() []byte {
-	linkJson, _ := json.Marshal(&link)
-	return linkJson
 }
