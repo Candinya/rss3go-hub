@@ -74,12 +74,22 @@ func Auth() gin.HandlerFunc {
 			verification := secp256k1.VerifySignature(personaIdBytes, md5hash[:], reqSignBytes)
 
 			if !verification {
-				ctx.String(http.StatusUnauthorized, "Unauthorized. Missing authentication parameters.")
+				ctx.JSON(http.StatusForbidden, gin.H{
+					"code": http.StatusForbidden,
+					"ok": false,
+					"message": "Unauthorized. Invalid signature.",
+				})
 				ctx.Abort()
+				log.Println("Signature verify failed.")
 			}
 		} else {
-			ctx.String(http.StatusUnauthorized, "Unauthorized. Missing authentication parameters.")
+			ctx.JSON(http.StatusUnauthorized, gin.H{
+				"code": http.StatusUnauthorized,
+				"ok": false,
+				"message": "Unauthorized. Missing authentication parameters.",
+			})
 			ctx.Abort()
+			log.Println("No signature provided.")
 		}
 	}
 }
