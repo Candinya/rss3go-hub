@@ -22,7 +22,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package storage
 
 import (
-	"github.com/nyawork/rss3go_lib/types"
 	"log"
 	"os"
 	"rss3go_hub/config"
@@ -37,7 +36,7 @@ func (e *TypeOfStorageUndefinedError) Error() string {
 	return "Storage type undefined: sType"
 }
 
-func Write(name types.Address, content []byte) error {
+func Write(name string, content []byte) error {
 
 	if config.GlobalConfig.Storage.Type == "local" {
 
@@ -53,7 +52,7 @@ func Write(name types.Address, content []byte) error {
 	return &TypeOfStorageUndefinedError{config.GlobalConfig.Storage.Type}
 }
 
-func Read(name types.Address) ([]byte, error) {
+func Read(name string) ([]byte, error) {
 
 	if config.GlobalConfig.Storage.Type == "local" {
 
@@ -69,7 +68,7 @@ func Read(name types.Address) ([]byte, error) {
 	return nil, &TypeOfStorageUndefinedError{config.GlobalConfig.Storage.Type}
 }
 
-func Exist(name types.Address) (bool, error) {
+func Exist(name string) (bool, error) {
 
 	if config.GlobalConfig.Storage.Type == "local" {
 
@@ -86,7 +85,7 @@ func Exist(name types.Address) (bool, error) {
 	return false, &TypeOfStorageUndefinedError{config.GlobalConfig.Storage.Type}
 }
 
-func Rm(name types.Address) error {
+func Rm(name string) error {
 
 	if config.GlobalConfig.Storage.Type == "local" {
 

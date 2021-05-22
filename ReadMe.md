@@ -17,35 +17,31 @@ RSS3-Hub is using `eth-crypto` as auth function now.
 
 But, there seems to be no such crypto library for go. So I might have to implement one.
 
-For RSS3-Hub compatible auth methods, please check [RSS3-Hub#authorization](https://github.com/NaturalSelectionLabs/RSS3-Hub#authorization) for detailed information.
+For RSS3-Hub compatible auth methods, please
+check [RSS3-Hub#authorization](https://github.com/NaturalSelectionLabs/RSS3-Hub#authorization) for detailed information.
 
 ## Endpoints
 
 > Copied from RSS3-Hub
 
-### Personas
+### Files
 
 - GET `/files/:fid` - get a file
 
-- PUT `/files` - change a file
+- POST `/files` - upload a new file (AUTH Required)
 
     - Body parameters
-    
-        | Name   | Optional |
-        | ------ | -------- |
-        | id     | false    |
-        | name   | true     |
-        | avatar | true     |
-        | bio    | true     |
 
-- PATCH `/personas/:pid` - change a persona
+        | Name     | Optional |
+        | -------- | -------- |
+        | contents | false    |
+
+- PUT `/files/:fid` - change a file (AUTH Required)
 
     - Body parameters
-    
-        | Name   | Optional |
-        | ------ | -------- |
-        | name   | true     |
-        | avatar | true     |
-        | bio    | true     |
 
-- DELETE `/personas/:pid` - delete a persona
+        | Name     | Optional |
+        | -------- | -------- |
+        | contents | false    |
+
+- DELETE `/files/:fid` - delete a file (AUTH Required)

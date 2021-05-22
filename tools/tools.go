@@ -26,9 +26,9 @@ import (
 	"github.com/nyawork/rss3go_lib/types"
 )
 
-func DeepMergePersona(old types.RSS3Persona, patch interface{}) (types.RSS3Persona, error) {
+func DeepMergePersona(old types.RSS3, patch interface{}) (types.RSS3, error) {
 
-	var patchPersona types.RSS3Persona
+	var patchPersona types.RSS3
 
 	if err := mergo.Map(&patchPersona, patch); err != nil {
 		return old, err
@@ -50,9 +50,9 @@ func DeepMergeItems(old types.RSS3Items, patch interface{}) (types.RSS3Items, er
 	return old, err
 }
 
-func DeepMergeLink(old types.RSS3Link, patch interface{}) (types.RSS3Link, error) {
+func DeepMergeList(old types.RSS3List, patch interface{}) (types.RSS3List, error) {
 
-	var patchLink types.RSS3Link
+	var patchLink types.RSS3List
 
 	if err := mergo.Map(&patchLink, patch); err != nil {
 		return old, err
@@ -70,18 +70,6 @@ func DeepMergeItem(old *types.RSS3Item, patch interface{}) error {
 		return err
 	}
 	err := mergo.Merge(old, patchItem, mergo.WithOverride)
-
-	return err
-}
-
-func DeepMergePersonaLink(old *types.RSS3PersonaLink, patch interface{}) error {
-
-	var patchPersonaLink types.RSS3PersonaLink
-
-	if err := mergo.Map(&patchPersonaLink, patch); err != nil {
-		return err
-	}
-	err := mergo.Merge(old, patchPersonaLink, mergo.WithOverride)
 
 	return err
 }
