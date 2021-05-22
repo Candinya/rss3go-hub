@@ -23,7 +23,7 @@ package file
 
 import (
 	"github.com/gin-gonic/gin"
-	"rss3go/handler/file"
+	"rss3go_hub/handler/file"
 )
 
 func Routers (e *gin.Engine) {

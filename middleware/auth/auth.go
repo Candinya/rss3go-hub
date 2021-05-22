@@ -27,16 +27,16 @@ import (
 	"fmt"
 	"github.com/ethereum/go-ethereum/crypto/secp256k1"
 	"github.com/gin-gonic/gin"
+	"github.com/nyawork/rss3go_lib/methods"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"rss3go/entity/methods"
 )
 
 // Todo: test this.
 
 func Auth() gin.HandlerFunc {
-	return func (ctx * gin.Context) {
+	return func(ctx *gin.Context) {
 
 		raw, err := ioutil.ReadAll(ctx.Request.Body)
 
@@ -52,7 +52,7 @@ func Auth() gin.HandlerFunc {
 		if personaId == "" {
 			// May POST new persona
 
-			persona := methods.Json2RSS3Persona(raw)
+			persona := methods.Json2RSS3(raw)
 
 			personaId = persona.Id
 		}
@@ -75,8 +75,8 @@ func Auth() gin.HandlerFunc {
 
 			if !verification {
 				ctx.JSON(http.StatusForbidden, gin.H{
-					"code": http.StatusForbidden,
-					"ok": false,
+					"code":    http.StatusForbidden,
+					"ok":      false,
 					"message": "Unauthorized. Invalid signature.",
 				})
 				ctx.Abort()
@@ -84,8 +84,8 @@ func Auth() gin.HandlerFunc {
 			}
 		} else {
 			ctx.JSON(http.StatusUnauthorized, gin.H{
-				"code": http.StatusUnauthorized,
-				"ok": false,
+				"code":    http.StatusUnauthorized,
+				"ok":      false,
 				"message": "Unauthorized. Missing authentication parameters.",
 			})
 			ctx.Abort()

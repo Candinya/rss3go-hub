@@ -1,4 +1,4 @@
-module rss3go
+module rss3go_hub
 
 go 1.16
 
@@ -8,10 +8,10 @@ require (
 	github.com/gin-gonic/gin v1.7.1
 	github.com/go-playground/validator/v10 v10.6.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/google/go-cmp v0.5.5
 	github.com/imdario/mergo v0.3.12
 	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/nyawork/rss3go_lib v0.0.0-20210522095341-1d7e412fee6e
 	github.com/ugorji/go v1.2.5 // indirect
 	golang.org/x/crypto v0.0.0-20210506145944-38f3c27a63bf // indirect
 	golang.org/x/sys v0.0.0-20210511113859-b0526f3d8744 // indirect

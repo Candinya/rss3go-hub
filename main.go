@@ -25,11 +25,11 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"log"
-	"rss3go/config"
-	"rss3go/routers"
-	"rss3go/routers/file"
-	"rss3go/routers/page"
-	"rss3go/routers/persona"
+	"rss3go_hub/config"
+	"rss3go_hub/routers"
+	"rss3go_hub/routers/file"
+	"rss3go_hub/routers/page"
+	"rss3go_hub/routers/persona"
 )
 
 

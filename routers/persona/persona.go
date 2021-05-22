@@ -23,10 +23,10 @@ package persona
 
 import (
 	"github.com/gin-gonic/gin"
-	"rss3go/handler/persona"
-	"rss3go/middleware/auth"
-	"rss3go/routers/persona/items"
-	"rss3go/routers/persona/links"
+	"rss3go_hub/handler/persona"
+	"rss3go_hub/middleware/auth"
+	"rss3go_hub/routers/persona/items"
+	"rss3go_hub/routers/persona/links"
 )
 
 func Routers (e *gin.Engine) {

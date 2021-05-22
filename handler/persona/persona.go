@@ -23,11 +23,11 @@ package persona
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/nyawork/rss3go_lib/methods"
+	"github.com/nyawork/rss3go_lib/types"
 	"net/http"
-	"rss3go/entity/methods"
-	"rss3go/entity/types"
-	"rss3go/tools"
-	"rss3go/utils/storage"
+	"rss3go_hub/tools"
+	"rss3go_hub/utils/storage"
 	"time"
 )
 
@@ -35,34 +35,31 @@ import (
 
 func NewHandler(ctx *gin.Context) {
 
-	var persona types.RSS3Persona
+	var persona types.RSS3
 
 	if err := ctx.BindJSON(&persona); err != nil {
 		// Parse error
 		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"code": http.StatusInternalServerError,
-			"ok": false,
+			"code":    http.StatusInternalServerError,
+			"ok":      false,
 			"message": err.Error(),
 		})
 	} else if exist, err := storage.Exist(persona.Id); err != nil {
 		// Storage API error
 		ctx.JSON(http.StatusNotImplemented, gin.H{
-			"code": http.StatusNotImplemented,
-			"ok": false,
+			"code":    http.StatusNotImplemented,
+			"ok":      false,
 			"message": err.Error(),
 		})
 	} else if exist {
 		// Already exists error
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"code": http.StatusBadRequest,
-			"ok": false,
+			"code":    http.StatusBadRequest,
+			"ok":      false,
 			"message": "Sorry, but this persona already exists",
 		})
 	} else {
 		// Doesn't exist
-
-		// Set type
-		persona.Type = "persona"
 
 		// Update timestamps
 		persona.DateCreated = time.Now().String()
@@ -72,17 +69,17 @@ func NewHandler(ctx *gin.Context) {
 		if err := storage.Write(persona.Id, persona.ToJson()); err != nil {
 			// Save error
 			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"code": http.StatusInternalServerError,
-				"ok": false,
+				"code":    http.StatusInternalServerError,
+				"ok":      false,
 				"message": err.Error(),
 			})
 		} else {
 			// No error
 			ctx.JSON(http.StatusOK, gin.H{
-				"code": http.StatusOK,
-				"ok": true,
+				"code":    http.StatusOK,
+				"ok":      true,
 				"message": "Persona found",
-				"data": persona.ToJson(),
+				"data":    persona.ToJson(),
 			})
 		}
 
@@ -97,15 +94,15 @@ func GetHandler(ctx *gin.Context) {
 	if exist, err := storage.Exist(personaId); err != nil {
 		// Storage API error
 		ctx.JSON(http.StatusNotImplemented, gin.H{
-			"code": http.StatusNotImplemented,
-			"ok": false,
+			"code":    http.StatusNotImplemented,
+			"ok":      false,
 			"message": err.Error(),
 		})
 	} else if !exist {
 		// Doesn't exist
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"code": http.StatusNotFound,
-			"ok": false,
+			"code":    http.StatusNotFound,
+			"ok":      false,
 			"message": "Sorry, but this persona doesn't exist",
 		})
 	} else {
@@ -113,17 +110,17 @@ func GetHandler(ctx *gin.Context) {
 		if personaBytes, err := storage.Read(personaId); err != nil {
 			// Storage API error
 			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"code": http.StatusInternalServerError,
-				"ok": false,
+				"code":    http.StatusInternalServerError,
+				"ok":      false,
 				"message": err.Error(),
 			})
 		} else {
 			// No error
 			ctx.JSON(http.StatusOK, gin.H{
-				"code": http.StatusOK,
-				"ok": true,
+				"code":    http.StatusOK,
+				"ok":      true,
 				"message": "Persona found",
-				"data": string(personaBytes),
+				"data":    string(personaBytes),
 			})
 		}
 
@@ -137,15 +134,15 @@ func ModifyHandler(ctx *gin.Context) {
 	if exist, err := storage.Exist(personaId); err != nil {
 		// Storage API error
 		ctx.JSON(http.StatusNotImplemented, gin.H{
-			"code": http.StatusNotImplemented,
-			"ok": false,
+			"code":    http.StatusNotImplemented,
+			"ok":      false,
 			"message": err.Error(),
 		})
 	} else if !exist {
 		// Doesn't exist
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"code": http.StatusNotFound,
-			"ok": false,
+			"code":    http.StatusNotFound,
+			"ok":      false,
 			"message": "Sorry, but this persona doesn't exist",
 		})
 	} else {
@@ -156,29 +153,29 @@ func ModifyHandler(ctx *gin.Context) {
 		if personaBytes, err := storage.Read(personaId); err != nil {
 			// Storage API error
 			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"code": http.StatusInternalServerError,
-				"ok": false,
+				"code":    http.StatusInternalServerError,
+				"ok":      false,
 				"message": err.Error(),
 			})
 		} else if err := ctx.BindJSON(&patch); err != nil {
 			// Parse error
 			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"code": http.StatusInternalServerError,
-				"ok": false,
+				"code":    http.StatusInternalServerError,
+				"ok":      false,
 				"message": err.Error(),
 			})
 		} else {
 			// Patch parsed
 
-			oldPersona := methods.Json2RSS3Persona(personaBytes)
+			oldPersona := methods.Json2RSS3(personaBytes)
 
 			newPersona, err := tools.DeepMergePersona(oldPersona, patch)
 
 			if err != nil {
 				// Deep Merge Error
 				ctx.JSON(http.StatusInternalServerError, gin.H{
-					"code": http.StatusInternalServerError,
-					"ok": false,
+					"code":    http.StatusInternalServerError,
+					"ok":      false,
 					"message": err.Error(),
 				})
 			} else {
@@ -189,17 +186,17 @@ func ModifyHandler(ctx *gin.Context) {
 				if err := storage.Write(personaId, newPersona.ToJson()); err != nil {
 					// Storage API error
 					ctx.JSON(http.StatusInternalServerError, gin.H{
-						"code": http.StatusInternalServerError,
-						"ok": false,
+						"code":    http.StatusInternalServerError,
+						"ok":      false,
 						"message": err.Error(),
 					})
 				} else {
 					// No error
 					ctx.JSON(http.StatusOK, gin.H{
-						"code": http.StatusOK,
-						"ok": true,
+						"code":    http.StatusOK,
+						"ok":      true,
 						"message": "Persona patched",
-						"data": newPersona.ToJson(),
+						"data":    newPersona.ToJson(),
 					})
 				}
 			}
@@ -217,15 +214,15 @@ func DeleteHandler(ctx *gin.Context) {
 	if exist, err := storage.Exist(personaId); err != nil {
 		// Storage API error
 		ctx.JSON(http.StatusNotImplemented, gin.H{
-			"code": http.StatusNotImplemented,
-			"ok": false,
+			"code":    http.StatusNotImplemented,
+			"ok":      false,
 			"message": err.Error(),
 		})
 	} else if !exist {
 		// Doesn't exist
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"code": http.StatusNotFound,
-			"ok": false,
+			"code":    http.StatusNotFound,
+			"ok":      false,
 			"message": "Sorry, but this persona doesn't exist",
 		})
 	} else {
@@ -245,12 +242,11 @@ func DeleteHandler(ctx *gin.Context) {
 
 		// No error
 		ctx.JSON(http.StatusOK, gin.H{
-			"code": http.StatusOK,
-			"ok": true,
+			"code":    http.StatusOK,
+			"ok":      true,
 			"message": "Persona deleted",
 		})
 
 	}
 
 }
-

@@ -22,10 +22,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package storage
 
 import (
+	"github.com/nyawork/rss3go_lib/types"
 	"log"
 	"os"
-	"rss3go/config"
-	"rss3go/entity/types"
+	"rss3go_hub/config"
 	"strings"
 )
 
@@ -44,7 +44,7 @@ func Write(name types.Address, content []byte) error {
 		// Change for filename save
 		name = strings.ReplaceAll(name, ":", "_")
 
-		err := os.WriteFile(config.GlobalConfig.Storage.Path + name, content, 0644)
+		err := os.WriteFile(config.GlobalConfig.Storage.Path+name, content, 0644)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -92,7 +92,7 @@ func Rm(name types.Address) error {
 
 		// Change for filename save
 		name = strings.ReplaceAll(name, ":", "_")
-		
+
 		err := os.Remove(config.GlobalConfig.Storage.Path + name)
 		if err != nil {
 			log.Fatalln(err)

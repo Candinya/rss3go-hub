@@ -23,8 +23,8 @@ package items
 
 import (
 	"github.com/gin-gonic/gin"
-	"rss3go/handler/persona/items"
-	"rss3go/middleware/auth"
+	"rss3go_hub/handler/persona/items"
+	"rss3go_hub/middleware/auth"
 )
 
 func Routers (r * gin.RouterGroup) {

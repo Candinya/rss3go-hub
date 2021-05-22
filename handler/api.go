@@ -20,15 +20,3 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  ********************************************************************/
 
 package handler
-
-type API interface {
-
-	getMeta(id *int)
-	getFull(id *int)
-	addNew() int
-	setWhat()
-	setFull() bool
-	setChanged() bool
-	del() bool
-
-}

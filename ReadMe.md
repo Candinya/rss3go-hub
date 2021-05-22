@@ -1,12 +1,11 @@
-# RSS 3 Go
+# RSS 3 Go Hub
 
-> There's no centralized hub in the RSS3 world. 
 > You are the hub, of all you have, of all you love.
 > Keep going.
 
 ## About
 
-**It's my first time using Go so this mess is only for study and research use.**
+We've split the RSS3 types into a new repo [rss3go_lib](https://github.com/nyawork/rss3go_lib)
 
 It's still in early develop stage, and those it cannot run correctly / functionally. Hope we can finally make it.
 
@@ -26,9 +25,9 @@ For RSS3-Hub compatible auth methods, please check [RSS3-Hub#authorization](http
 
 ### Personas
 
-- GET `/personas/:pid` - get a persona
+- GET `/files/:fid` - get a file
 
-- POST `/personas` - add a new persona
+- PUT `/files` - change a file
 
     - Body parameters
     
@@ -50,83 +49,3 @@ For RSS3-Hub compatible auth methods, please check [RSS3-Hub#authorization](http
         | bio    | true     |
 
 - DELETE `/personas/:pid` - delete a persona
-
-#### Items
-
-- GET `/personas/:pid/items` - get items of a persona
-
-    - Url parameters
-    
-        | Name | Optional | Description                                                               |
-        | ---- | -------- | ------------------------------------------------------------------------- |
-        | id   | true     | file id of items file, empty for returning the data from the persona file |
-
-- POST `/personas/:pid/items` - add a item to a persona
-
-    - Body parameters
-    
-        | Name     | Optional | Description        |
-        | -------- | -------- | ------------------ |
-        | authors  | true     | Default to `[pid]` |
-        | title    | true     |                    |
-        | summary  | true     |                    |
-        | tags     | true     |                    |
-        | contents | true     |                    |
-
-- PATCH `/personas/:pid/items/:tid` - change a item of a persona
-
-    - Url parameters
-    
-        | Name | Optional | Description                                                                                            |
-        | ---- | -------- | ------------------------------------------------------------------------------------------------------ |
-        | id   | true     | file id of items file, filling in to speed up search process, empty to search it from the persona file |
-
-    - Body parameters
-    
-        | Name     | Optional |
-        | -------- | -------- |
-        | authors  | true     |
-        | title    | true     |
-        | summary  | true     |
-        | tags     | true     |
-        | contents | true     |
-
-- DELETE `/personas/:pid/items/:tid` - delete a item of a persona
-
-    - Url parameters
-    
-        | Name | Optional | Description   |
-        | ---- | -------- | ------------- |
-        | id   | true     | Same as PATCH |
-
-### Links
-
-- GET `/personas/:pid/links` - get items of a persona
-
-  - Url parameters
-
-      | Name | Optional | Description                                                               |
-      | ---- | -------- | ------------------------------------------------------------------------- |
-      | id   | true     | file id of items file, empty for returning the data from the persona file |
-
-- POST `/personas/:pid/links` - add a link to a persona
-
-    - Body parameters
-    
-        | Name     | Optional |
-        | -------- | -------- |
-        | name     | true     |
-        | tags     | true     |
-        | list     | true     |
-
-- PATCH `/personas/:pid/links/:lid` - change a link of a persona
-
-    - Body parameters
-    
-        | Name     | Optional |
-        | -------- | -------- |
-        | name     | true     |
-        | tags     | true     |
-        | list     | true     |
-
-- DELETE `/personas/:pid/links/:lid` - delete a link of a persona

@@ -24,50 +24,42 @@ package file
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"rss3go/utils/storage"
+	"rss3go_hub/utils/storage"
 )
 
 func GetHandler (ctx *gin.Context) {
 
 	fileId := ctx.Param("fid")
 
-	if fileId == "" {
 
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"code": http.StatusBadRequest,
+	if exist, err := storage.Exist(fileId); err != nil {
+		// Storage API error
+		ctx.JSON(http.StatusNotImplemented, gin.H{
+			"code": http.StatusNotImplemented,
 			"ok": false,
-			"message": "Hmm.. You might need to specify a file id?",
+			"message": err.Error(),
+		})
+	} else if !exist {
+		// Doesn't exist
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"ok": false,
+			"message": "Sorry, but this file doesn't exist",
 		})
 	} else {
-		if exist, err := storage.Exist(fileId); err != nil {
+		// Exists
+		if fileBytes, err := storage.Read(fileId); err != nil {
 			// Storage API error
-			ctx.JSON(http.StatusNotImplemented, gin.H{
-				"code": http.StatusNotImplemented,
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusInternalServerError,
 				"ok": false,
 				"message": err.Error(),
 			})
-		} else if !exist {
-			// Doesn't exist
-			ctx.JSON(http.StatusNotFound, gin.H{
-				"code": http.StatusNotFound,
-				"ok": false,
-				"message": "Sorry, but this file doesn't exist",
-			})
 		} else {
-			// Exists
-			if fileBytes, err := storage.Read(fileId); err != nil {
-				// Storage API error
-				ctx.JSON(http.StatusInternalServerError, gin.H{
-					"code": http.StatusInternalServerError,
-					"ok": false,
-					"message": err.Error(),
-				})
-			} else {
-				// No error
-				ctx.Data(http.StatusOK, http.DetectContentType(fileBytes), fileBytes)
-			}
-
+			// No error
+			ctx.Data(http.StatusOK, http.DetectContentType(fileBytes), fileBytes)
 		}
+
 	}
 
 }

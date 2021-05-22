@@ -24,11 +24,11 @@ package links
 import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"github.com/nyawork/rss3go_lib/methods"
+	"github.com/nyawork/rss3go_lib/types"
 	"net/http"
-	"rss3go/entity/methods"
-	"rss3go/entity/types"
-	"rss3go/tools"
-	"rss3go/utils/storage"
+	"rss3go_hub/tools"
+	"rss3go_hub/utils/storage"
 )
 
 // todo: test this
@@ -40,8 +40,8 @@ func NewHandler(ctx *gin.Context) {
 	if exist, _ := storage.Exist(personaId); !exist {
 		// Doesn't exist
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"code": http.StatusNotFound,
-			"ok": false,
+			"code":    http.StatusNotFound,
+			"ok":      false,
 			"message": "Sorry, but this persona doesn't exist",
 		})
 		return
@@ -52,7 +52,7 @@ func NewHandler(ctx *gin.Context) {
 	_ = ctx.BindJSON(&link) // Ignore error
 
 	raw, _ := storage.Read(personaId) // Ignore error
-	personaStruct := methods.Json2RSS3Persona(raw)
+	personaStruct := methods.Json2RSS3(raw)
 
 	var exist bool = false
 
@@ -66,8 +66,8 @@ func NewHandler(ctx *gin.Context) {
 	if exist {
 		// Already exists
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"code": http.StatusBadRequest,
-			"ok": false,
+			"code":    http.StatusBadRequest,
+			"ok":      false,
 			"message": "Sorry, but this link already exists",
 		})
 	} else {
@@ -80,8 +80,8 @@ func NewHandler(ctx *gin.Context) {
 		if err := storage.Write(personaId, personaStruct.ToJson()); err != nil {
 			// Save error
 			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"code": http.StatusInternalServerError,
-				"ok": false,
+				"code":    http.StatusInternalServerError,
+				"ok":      false,
 				"message": err.Error(),
 			})
 		} else {
@@ -106,8 +106,8 @@ func GetHandler(ctx *gin.Context) {
 	if exist, _ := storage.Exist(personaId); !exist {
 		// Doesn't exist
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"code": http.StatusNotFound,
-			"ok": false,
+			"code":    http.StatusNotFound,
+			"ok":      false,
 			"message": "Sorry, but this persona doesn't exist",
 		})
 		return
@@ -116,7 +116,7 @@ func GetHandler(ctx *gin.Context) {
 	var link_p *types.RSS3PersonaLink = nil
 
 	raw, _ := storage.Read(personaId) // Ignore error
-	personaStruct := methods.Json2RSS3Persona(raw)
+	personaStruct := methods.Json2RSS3(raw)
 
 	if linkId == "" {
 		// return all
@@ -139,8 +139,8 @@ func GetHandler(ctx *gin.Context) {
 		if link_p == nil {
 			// Already exists error
 			ctx.JSON(http.StatusNotFound, gin.H{
-				"code": http.StatusNotFound,
-				"ok": false,
+				"code":    http.StatusNotFound,
+				"ok":      false,
 				"message": "Sorry, but this link doesn't exist",
 			})
 		} else {
@@ -165,8 +165,8 @@ func ModifyHandler(ctx *gin.Context) {
 	if exist, _ := storage.Exist(personaId); !exist {
 		// Doesn't exist
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"code": http.StatusNotFound,
-			"ok": false,
+			"code":    http.StatusNotFound,
+			"ok":      false,
 			"message": "Sorry, but this persona doesn't exist",
 		})
 		return
@@ -175,7 +175,7 @@ func ModifyHandler(ctx *gin.Context) {
 	var link_p *types.RSS3PersonaLink = nil
 
 	raw, _ := storage.Read(personaId) // Ignore error
-	personaStruct := methods.Json2RSS3Persona(raw)
+	personaStruct := methods.Json2RSS3(raw)
 
 	for _, i := range personaStruct.Links {
 		if i.Id == linkId {
@@ -187,8 +187,8 @@ func ModifyHandler(ctx *gin.Context) {
 	if link_p == nil {
 		// Doesn't exist
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"code": http.StatusNotFound,
-			"ok": false,
+			"code":    http.StatusNotFound,
+			"ok":      false,
 			"message": "Sorry, but this link doesn't exist",
 		})
 	} else {
@@ -199,8 +199,8 @@ func ModifyHandler(ctx *gin.Context) {
 		if err := ctx.BindJSON(&patch); err != nil {
 			// Parse error
 			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"code": http.StatusInternalServerError,
-				"ok": false,
+				"code":    http.StatusInternalServerError,
+				"ok":      false,
 				"message": err.Error(),
 			})
 		} else {
@@ -209,8 +209,8 @@ func ModifyHandler(ctx *gin.Context) {
 			if err := tools.DeepMergePersonaLink(link_p, patch); err != nil {
 				// Deep Merge Error
 				ctx.JSON(http.StatusInternalServerError, gin.H{
-					"code": http.StatusInternalServerError,
-					"ok": false,
+					"code":    http.StatusInternalServerError,
+					"ok":      false,
 					"message": err.Error(),
 				})
 			} else {
@@ -219,8 +219,8 @@ func ModifyHandler(ctx *gin.Context) {
 				if err := storage.Write(personaId, personaStruct.ToJson()); err != nil {
 					// Storage API error
 					ctx.JSON(http.StatusInternalServerError, gin.H{
-						"code": http.StatusInternalServerError,
-						"ok": false,
+						"code":    http.StatusInternalServerError,
+						"ok":      false,
 						"message": err.Error(),
 					})
 				} else {
@@ -247,8 +247,8 @@ func DeleteHandler(ctx *gin.Context) {
 	if exist, _ := storage.Exist(personaId); !exist {
 		// Doesn't exist
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"code": http.StatusNotFound,
-			"ok": false,
+			"code":    http.StatusNotFound,
+			"ok":      false,
 			"message": "Sorry, but this persona doesn't exist",
 		})
 		return
@@ -257,7 +257,7 @@ func DeleteHandler(ctx *gin.Context) {
 	var link_index int = -1
 
 	raw, _ := storage.Read(personaId) // Ignore error
-	personaStruct := methods.Json2RSS3Persona(raw)
+	personaStruct := methods.Json2RSS3(raw)
 
 	for index, i := range personaStruct.Links {
 		if i.Id == linkId {
@@ -269,8 +269,8 @@ func DeleteHandler(ctx *gin.Context) {
 	if link_index == -1 {
 		// Doesn't exist
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"code": http.StatusNotFound,
-			"ok": false,
+			"code":    http.StatusNotFound,
+			"ok":      false,
 			"message": "Sorry, but this link doesn't exist",
 		})
 	} else {
@@ -278,15 +278,15 @@ func DeleteHandler(ctx *gin.Context) {
 
 		personaStruct.Links = append(
 			personaStruct.Links[:link_index],
-			personaStruct.Links[link_index+1:]...
+			personaStruct.Links[link_index+1:]...,
 		)
 
 		// Save persona
 		if err := storage.Write(personaId, personaStruct.ToJson()); err != nil {
 			// Storage API error
 			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"code": http.StatusInternalServerError,
-				"ok": false,
+				"code":    http.StatusInternalServerError,
+				"ok":      false,
 				"message": err.Error(),
 			})
 		} else {

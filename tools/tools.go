@@ -23,10 +23,10 @@ package tools
 
 import (
 	"github.com/imdario/mergo"
-	"rss3go/entity/types"
+	"github.com/nyawork/rss3go_lib/types"
 )
 
-func DeepMergePersona (old types.RSS3Persona, patch interface{}) (types.RSS3Persona, error) {
+func DeepMergePersona(old types.RSS3Persona, patch interface{}) (types.RSS3Persona, error) {
 
 	var patchPersona types.RSS3Persona
 
@@ -38,7 +38,7 @@ func DeepMergePersona (old types.RSS3Persona, patch interface{}) (types.RSS3Pers
 	return old, err
 }
 
-func DeepMergeItems (old types.RSS3Items, patch interface{}) (types.RSS3Items, error) {
+func DeepMergeItems(old types.RSS3Items, patch interface{}) (types.RSS3Items, error) {
 
 	var patchItems types.RSS3Items
 
@@ -50,7 +50,7 @@ func DeepMergeItems (old types.RSS3Items, patch interface{}) (types.RSS3Items, e
 	return old, err
 }
 
-func DeepMergeLink (old types.RSS3Link, patch interface{}) (types.RSS3Link, error) {
+func DeepMergeLink(old types.RSS3Link, patch interface{}) (types.RSS3Link, error) {
 
 	var patchLink types.RSS3Link
 
@@ -62,7 +62,7 @@ func DeepMergeLink (old types.RSS3Link, patch interface{}) (types.RSS3Link, erro
 	return old, err
 }
 
-func DeepMergeItem (old *types.RSS3Item, patch interface{}) error {
+func DeepMergeItem(old *types.RSS3Item, patch interface{}) error {
 
 	var patchItem types.RSS3Item
 
@@ -74,7 +74,7 @@ func DeepMergeItem (old *types.RSS3Item, patch interface{}) error {
 	return err
 }
 
-func DeepMergePersonaLink (old *types.RSS3PersonaLink, patch interface{}) error {
+func DeepMergePersonaLink(old *types.RSS3PersonaLink, patch interface{}) error {
 
 	var patchPersonaLink types.RSS3PersonaLink
 
