@@ -1,6 +1,6 @@
 /*********************************************************************
 
-rss3go_hub: An alternative version of RSSHub for RSS3 written in go
+rss3go_hub: An alternative version of RSS3-Hub written in go
 
 Copyright (C) 2021 Nyawork, Candinya
 
@@ -23,6 +23,7 @@ package file
 
 import (
 	"github.com/gin-gonic/gin"
+	"io/ioutil"
 	"net/http"
 	"rss3go_hub/utils/storage"
 )
@@ -30,7 +31,6 @@ import (
 func GetHandler (ctx *gin.Context) {
 
 	fileId := ctx.Param("fid")
-
 
 	if exist, err := storage.Exist(fileId); err != nil {
 		// Storage API error
