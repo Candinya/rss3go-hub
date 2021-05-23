@@ -28,20 +28,8 @@ check [RSS3-Hub#authorization](https://github.com/NaturalSelectionLabs/RSS3-Hub#
 
 - GET `/files/:fid` - get a file
 
-- POST `/files` - upload a new file (AUTH Required)
-
-    - Body parameters
-
-        | Name     | Optional |
-        | -------- | -------- |
-        | contents | false    |
+- POST `/files/:fid` - upload a new file (AUTH Required)
 
 - PUT `/files/:fid` - change a file (AUTH Required)
-
-    - Body parameters
-
-        | Name     | Optional |
-        | -------- | -------- |
-        | contents | false    |
 
 - DELETE `/files/:fid` - delete a file (AUTH Required)
