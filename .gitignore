@@ -16,3 +16,6 @@ vendor/
 
 # JetBrains
 .idea/
+
+# Storage
+_storage/

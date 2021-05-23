@@ -77,8 +77,10 @@ func Exist(name string) (bool, error) {
 
 		_, err := os.Stat(config.GlobalConfig.Storage.Path + name)
 		fileNotExist := os.IsNotExist(err)
-		if err != nil {
+		if !fileNotExist && err != nil {
 			log.Println(err)
+		} else {
+			err = nil
 		}
 		return !fileNotExist, err
 	}

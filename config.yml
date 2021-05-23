@@ -5,4 +5,4 @@
 debug: true
 storage:
   type: 'local'
-  path: 'storage/'
+  path: '_storage/'
