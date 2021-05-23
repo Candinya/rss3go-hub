@@ -63,3 +63,94 @@ func GetHandler (ctx *gin.Context) {
 	}
 
 }
+
+func NewHandler (ctx *gin.Context) {
+
+	fileId := ctx.Param("fid")
+
+	if exist, err := storage.Exist(fileId); err != nil {
+		// Storage API error
+		ctx.JSON(http.StatusNotImplemented, gin.H{
+			"code": http.StatusNotImplemented,
+			"ok": false,
+			"message": err.Error(),
+		})
+	} else if exist {
+		// Already exist
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"ok": false,
+			"message": "Sorry, but this file already exists",
+		})
+	} else {
+		// Exists
+
+		raw, err := ioutil.ReadAll(ctx.Request.Body)
+
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusInternalServerError,
+				"ok": false,
+				"message": "Sorry, but we failed to read the request body.",
+			})
+		} else if err = storage.Write(fileId, raw); err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusInternalServerError,
+				"ok": false,
+				"message": "Sorry, but we failed to save the target file.",
+			})
+		} else {
+			ctx.JSON(http.StatusOK, gin.H{
+				"code": http.StatusOK,
+				"ok": true,
+				"message": "File has been saved.",
+			})
+		}
+
+	}
+
+}
+
+func ReplaceHandler(ctx *gin.Context) {
+
+}
+
+func DeleteHandler (ctx *gin.Context) {
+
+	fileId := ctx.Param("fid")
+
+	if exist, err := storage.Exist(fileId); err != nil {
+		// Storage API error
+		ctx.JSON(http.StatusNotImplemented, gin.H{
+			"code": http.StatusNotImplemented,
+			"ok": false,
+			"message": err.Error(),
+		})
+	} else if !exist {
+		// Doesn't exist
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"ok": false,
+			"message": "Sorry, but this file doesn't exist",
+		})
+	} else {
+		// Exists
+		if err := storage.Rm(fileId); err != nil {
+			// Storage API error
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusInternalServerError,
+				"ok": false,
+				"message": err.Error(),
+			})
+		} else {
+			// No error
+			ctx.JSON(http.StatusOK, gin.H{
+				"code": http.StatusOK,
+				"ok": true,
+				"message": "File removed",
+			})
+		}
+
+	}
+
+}
