@@ -1,6 +1,6 @@
 /*********************************************************************
 
-rss3go_hub: An alternative version of RSSHub for RSS3 written in go
+rss3go_hub: An alternative version of RSS3-Hub written in go
 
 Copyright (C) 2021 Nyawork, Candinya
 
@@ -45,7 +45,7 @@ func Write(name string, content []byte) error {
 
 		err := os.WriteFile(config.GlobalConfig.Storage.Path+name, content, 0644)
 		if err != nil {
-			log.Fatalln(err)
+			log.Println(err)
 		}
 		return err
 	}
@@ -61,7 +61,7 @@ func Read(name string) ([]byte, error) {
 
 		data, err := os.ReadFile(config.GlobalConfig.Storage.Path + name)
 		if err != nil {
-			log.Fatalln(err)
+			log.Println(err)
 		}
 		return data, err
 	}
@@ -76,11 +76,11 @@ func Exist(name string) (bool, error) {
 		name = strings.ReplaceAll(name, ":", "_")
 
 		_, err := os.Stat(config.GlobalConfig.Storage.Path + name)
-		fileExist := os.IsNotExist(err)
-		if !fileExist && err != nil {
-			log.Fatalln(err)
+		fileNotExist := os.IsNotExist(err)
+		if err != nil {
+			log.Println(err)
 		}
-		return fileExist, err
+		return !fileNotExist, err
 	}
 	return false, &TypeOfStorageUndefinedError{config.GlobalConfig.Storage.Type}
 }
@@ -94,7 +94,7 @@ func Rm(name string) error {
 
 		err := os.Remove(config.GlobalConfig.Storage.Path + name)
 		if err != nil {
-			log.Fatalln(err)
+			log.Println(err)
 		}
 		return err
 	}
