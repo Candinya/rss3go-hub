@@ -1,0 +1,10 @@
+version: '3'
+services:
+  rss3hub:
+    image: nyawork/rss3go-hub
+    container_name: rss3go-hub
+    ports:
+      - 127.0.0.1:13454:8080
+    restart: always
+    volumes:
+      - ./config.yml:/config.yml:ro

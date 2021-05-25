@@ -20,7 +20,6 @@ RUN go build .
 FROM alpine:latest AS RUNNER
 
 COPY --from=builder /rss3go_hub/rss3go_hub .
-COPY config.yml .
 
 # This container exposes port 8080 to the outside world
 EXPOSE 8080
