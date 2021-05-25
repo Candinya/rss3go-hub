@@ -27,11 +27,35 @@ They should be already deployed in rss3go_lib .
 
 - POST `/files` - upload a new file (Signature within)
 
-  Request body: Full file object (Should be new)
+  Request body: Full file object with signature (Should be new)
+
+    ``` json
+    {
+      "contents": [{
+          "id": "0x.......",
+          "...": "..."
+      }, {
+          "id": "0x.......",
+          "...": "..."
+      }]
+    }
+    ```
 
 - PUT `/files` - change a file (Signature within)
 
-  Request body: Full file object (Should already exist)
+  Request body: Arrays of file object with signature (Might already exist)
+
+    ``` json
+    {
+      "contents": [{
+          "id": "0x.......",
+          "...": "..."
+      }, {
+          "id": "0x.......",
+          "...": "..."
+      }]
+    }
+    ```
 
 - DELETE `/files` - delete a file (Signature within)
 

@@ -36,7 +36,7 @@ func DeleteHandler(ctx *gin.Context) {
 
 	var req DeleteRequest
 
-	if err := ctx.BindJSON(req); err != nil {
+	if err := ctx.ShouldBindJSON(&req); err != nil {
 		handleError(ctx, "Parse failed. Error: " + err.Error(), http.StatusInternalServerError)
 	} else if req.Signature == "" {
 		handleError(ctx, "Need signature", http.StatusUnauthorized)
