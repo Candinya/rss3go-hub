@@ -32,6 +32,8 @@ func Routers (e *gin.Engine) {
 	{
 		apiFiles.GET("/:fid", files.GetHandler)
 
+		apiFiles.OPTIONS("")
+
 		apiFiles.PUT("", files.PutHandler)
 
 		apiFiles.DELETE("", files.DeleteHandler)

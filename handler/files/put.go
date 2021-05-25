@@ -23,9 +23,11 @@ package files
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/nyawork/rss3go_lib/types"
 	"net/http"
+	"rss3go_hub/config"
 	"rss3go_hub/utils/storage"
 	"strings"
 )
@@ -45,6 +47,12 @@ func PutHandler(ctx *gin.Context) {
 	} else {
 
 		for _, content := range req.Contents {
+
+			if config.GlobalConfig.Debug {
+				contentByte, _ := json.MarshalIndent(content, "", "\t")
+				fmt.Println(string(contentByte))
+			}
+
 			jsonByte, err := json.Marshal(content)
 			if err != nil {
 				handleError(ctx, "Marshal failed. Error: " + err.Error(), http.StatusInternalServerError)
