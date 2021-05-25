@@ -28,13 +28,13 @@ import (
 
 func Routers (e *gin.Engine) {
 
-	apiFiles := e.Group("/file/:fid")
+	apiFiles := e.Group("/file")
 	{
+		apiFiles.GET("/:fid", file.GetHandler)
+
 		apiFiles.POST("", file.NewHandler)
 
-		apiFiles.GET("", file.GetHandler)
-
-		apiFiles.PUT("", file.ReplaceHandler)
+		apiFiles.PUT("", file.PutHandler)
 
 		apiFiles.DELETE("", file.DeleteHandler)
 	}

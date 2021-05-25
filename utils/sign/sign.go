@@ -19,4 +19,34 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package tools
+package sign
+
+import (
+	"encoding/hex"
+	"github.com/ethereum/go-ethereum/crypto"
+)
+
+func GetSigner(msg string, signHex string) (string, error) {
+
+	msgHash := crypto.Keccak256Hash([]byte(msg))
+
+	signatureReceived, err := hex.DecodeString(signHex)
+	if err != nil {
+		return "", err
+	}
+
+	recoveredPubBytes, err := crypto.Ecrecover(msgHash.Bytes(), signatureReceived)
+	if err != nil {
+		return "", err
+	}
+
+	recoveredPub, err := crypto.UnmarshalPubkey(recoveredPubBytes)
+	if err != nil {
+		return "", err
+	}
+
+	signer := crypto.PubkeyToAddress(*recoveredPub).String()
+
+	return signer, nil
+
+}

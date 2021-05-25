@@ -29,6 +29,7 @@ import (
 	"rss3go_hub/routers"
 	"rss3go_hub/routers/file"
 	"rss3go_hub/routers/page"
+	"rss3go_hub/utils/storage"
 )
 
 
@@ -49,6 +50,14 @@ func main() {
 	} else {
 		gin.SetMode(gin.ReleaseMode)
 	}
+
+	// Init storage
+
+	log.Println("Initializing storage...")
+
+	storage.Init()
+
+	log.Println("Storage initialized successfully.")
 
 	// Init routers
 

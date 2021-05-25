@@ -19,4 +19,34 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package tools
+package file
+
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+	"rss3go_hub/utils/storage"
+)
+
+func GetHandler(ctx *gin.Context) {
+
+	fileId := ctx.Param("fid")
+
+	if exist, err := storage.Exist(fileId); err != nil {
+		// Storage API error
+		handleError(ctx, "Can't check file existence. Error: " + err.Error(), http.StatusInternalServerError)
+	} else if !exist {
+		// Doesn't exist
+		handleError(ctx, fileId + " not found.", http.StatusNotFound)
+	} else {
+		// Exists
+		if fileBytes, err := storage.Read(fileId); err != nil {
+			// Storage API error
+			handleError(ctx, "Can't read file. Error: " + err.Error(), http.StatusInternalServerError)
+		} else {
+			// No error
+			ctx.Data(http.StatusOK, gin.MIMEJSON, fileBytes)
+		}
+
+	}
+
+}

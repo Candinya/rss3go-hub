@@ -23,177 +23,27 @@ package file
 
 import (
 	"github.com/gin-gonic/gin"
-	"io/ioutil"
-	"net/http"
-	"rss3go_hub/utils/storage"
+	"log"
 )
 
-func GetHandler (ctx *gin.Context) {
+func handleError(ctx *gin.Context, msg string, status int) {
 
-	fileId := ctx.Param("fid")
-
-	if exist, err := storage.Exist(fileId); err != nil {
-		// Storage API error
-		ctx.JSON(http.StatusNotImplemented, gin.H{
-			"code": http.StatusNotImplemented,
-			"ok": false,
-			"message": err.Error(),
-		})
-	} else if !exist {
-		// Doesn't exist
-		ctx.JSON(http.StatusNotFound, gin.H{
-			"code": http.StatusNotFound,
-			"ok": false,
-			"message": "Sorry, but this file doesn't exist",
-		})
-	} else {
-		// Exists
-		if fileBytes, err := storage.Read(fileId); err != nil {
-			// Storage API error
-			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"code": http.StatusInternalServerError,
-				"ok": false,
-				"message": err.Error(),
-			})
-		} else {
-			// No error
-			ctx.Data(http.StatusOK, http.DetectContentType(fileBytes), fileBytes)
-		}
-
-	}
+	ctx.JSON(status, gin.H{
+		"code":    status,
+		"ok":      false,
+		"message": msg,
+	})
+	log.Println(msg)
 
 }
 
-func NewHandler (ctx *gin.Context) {
+func handleSuccess(ctx *gin.Context, data *interface{}, msg string, status int) {
 
-	fileId := ctx.Param("fid")
-
-	if exist, err := storage.Exist(fileId); err != nil {
-		// Storage API error
-		ctx.JSON(http.StatusNotImplemented, gin.H{
-			"code": http.StatusNotImplemented,
-			"ok": false,
-			"message": err.Error(),
-		})
-	} else if exist {
-		// Already exist
-		ctx.JSON(http.StatusNotFound, gin.H{
-			"code": http.StatusNotFound,
-			"ok": false,
-			"message": "Sorry, but this file already exists",
-		})
-	} else {
-		// Exists
-
-		raw, err := ioutil.ReadAll(ctx.Request.Body)
-
-		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"code": http.StatusInternalServerError,
-				"ok": false,
-				"message": "Sorry, but we failed to read the request body.",
-			})
-		} else if err = storage.Write(fileId, raw); err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"code": http.StatusInternalServerError,
-				"ok": false,
-				"message": "Sorry, but we failed to save the target file.",
-			})
-		} else {
-			ctx.JSON(http.StatusOK, gin.H{
-				"code": http.StatusOK,
-				"ok": true,
-				"message": "File has been saved.",
-			})
-		}
-
-	}
-
-}
-
-func ReplaceHandler(ctx *gin.Context) {
-
-	fileId := ctx.Param("fid")
-
-	if exist, err := storage.Exist(fileId); err != nil {
-		// Storage API error
-		ctx.JSON(http.StatusNotImplemented, gin.H{
-			"code": http.StatusNotImplemented,
-			"ok": false,
-			"message": err.Error(),
-		})
-	} else if !exist {
-		// Already exist
-		ctx.JSON(http.StatusNotFound, gin.H{
-			"code": http.StatusNotFound,
-			"ok": false,
-			"message": "Sorry, but this file doesn't exist",
-		})
-	} else {
-		// Exists
-
-		raw, err := ioutil.ReadAll(ctx.Request.Body)
-
-		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"code": http.StatusInternalServerError,
-				"ok": false,
-				"message": "Sorry, but we failed to read the request body.",
-			})
-		} else if err = storage.Write(fileId, raw); err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"code": http.StatusInternalServerError,
-				"ok": false,
-				"message": "Sorry, but we failed to save the target file.",
-			})
-		} else {
-			ctx.JSON(http.StatusOK, gin.H{
-				"code": http.StatusOK,
-				"ok": true,
-				"message": "File has been saved.",
-			})
-		}
-
-	}
-
-}
-
-func DeleteHandler (ctx *gin.Context) {
-
-	fileId := ctx.Param("fid")
-
-	if exist, err := storage.Exist(fileId); err != nil {
-		// Storage API error
-		ctx.JSON(http.StatusNotImplemented, gin.H{
-			"code": http.StatusNotImplemented,
-			"ok": false,
-			"message": err.Error(),
-		})
-	} else if !exist {
-		// Doesn't exist
-		ctx.JSON(http.StatusNotFound, gin.H{
-			"code": http.StatusNotFound,
-			"ok": false,
-			"message": "Sorry, but this file doesn't exist",
-		})
-	} else {
-		// Exists
-		if err := storage.Rm(fileId); err != nil {
-			// Storage API error
-			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"code": http.StatusInternalServerError,
-				"ok": false,
-				"message": err.Error(),
-			})
-		} else {
-			// No error
-			ctx.JSON(http.StatusOK, gin.H{
-				"code": http.StatusOK,
-				"ok": true,
-				"message": "File removed",
-			})
-		}
-
-	}
+	ctx.JSON(status, gin.H{
+		"code":    status,
+		"ok":      true,
+		"message": msg,
+		"data":    *data,
+	})
 
 }

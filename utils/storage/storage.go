@@ -36,6 +36,17 @@ func (e *TypeOfStorageUndefinedError) Error() string {
 	return "Storage type undefined: sType"
 }
 
+func Init() {
+	if config.GlobalConfig.Storage.Type == "local" {
+		if _, err := os.Stat(config.GlobalConfig.Storage.Path); os.IsNotExist(err) {
+			// Do not exist. Create it.
+			if err = os.MkdirAll(config.GlobalConfig.Storage.Path, 0644); err != nil {
+				log.Fatalln(err.Error())
+			}
+		}
+	}
+}
+
 func Write(name string, content []byte) error {
 
 	if config.GlobalConfig.Storage.Type == "local" {
