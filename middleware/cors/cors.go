@@ -19,59 +19,26 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  ********************************************************************/
 
-package main
+package cors
 
 import (
 	"github.com/gin-gonic/gin"
-	"log"
-	"rss3go_hub/config"
-	"rss3go_hub/routers"
-	"rss3go_hub/routers/files"
-	"rss3go_hub/routers/page"
-	"rss3go_hub/utils/storage"
 )
 
+func Allow() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		//method := c.Request.Method
+		// 可将将* 替换为指定的域名
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
+		c.Header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+		c.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Cache-Control, Content-Language, Content-Type")
+		c.Header("Access-Control-Allow-Credentials", "true")
 
-func main() {
+		//if method == "OPTIONS" {
+		//	c.AbortWithStatus(http.StatusNoContent)
+		//}
 
-	// Load config
-
-	log.Println("Loading config...")
-
-	if err := config.LoadConfig("config.yml"); err != nil {
-		panic(err)
+		//c.Next()
 	}
-
-	log.Println("Config loaded successfully.")
-
-	if config.GlobalConfig.Debug {
-		log.Println("Working on debug mode")
-	} else {
-		gin.SetMode(gin.ReleaseMode)
-	}
-
-	// Init storage
-
-	log.Println("Initializing storage...")
-
-	storage.Init()
-
-	log.Println("Storage initialized successfully.")
-
-	// Init routers
-
-	log.Println("Initializing routers...")
-
-	routers.Include(page.Routers, files.Routers)
-
-	r := routers.Init()
-
-	log.Println("Routers initialized successfully.")
-
-	log.Println("Starting gin server...")
-
-	if err := r.Run(); err != nil {
-		panic(err)
-	}
-
 }
