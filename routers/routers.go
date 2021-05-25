@@ -23,6 +23,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
+	"rss3go_hub/middleware/cors"
 )
 
 type Option func(*gin.Engine)
@@ -36,6 +37,8 @@ func Include (opts ... Option) {
 
 func Init() *gin.Engine {
 	r := gin.Default()
+
+	r.Use(cors.Allow())
 
 	for _, opt := range options {
 		opt(r)

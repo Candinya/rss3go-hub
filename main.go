@@ -27,7 +27,7 @@ import (
 	"log"
 	"rss3go_hub/config"
 	"rss3go_hub/routers"
-	"rss3go_hub/routers/file"
+	"rss3go_hub/routers/files"
 	"rss3go_hub/routers/page"
 	"rss3go_hub/utils/storage"
 )
@@ -63,7 +63,7 @@ func main() {
 
 	log.Println("Initializing routers...")
 
-	routers.Include(page.Routers, file.Routers)
+	routers.Include(page.Routers, files.Routers)
 
 	r := routers.Init()
 

@@ -25,7 +25,6 @@ import (
 	"log"
 	"os"
 	"rss3go_hub/config"
-	"strings"
 )
 
 type TypeOfStorageUndefinedError struct {
@@ -51,9 +50,6 @@ func Write(name string, content []byte) error {
 
 	if config.GlobalConfig.Storage.Type == "local" {
 
-		// Change for filename save
-		name = strings.ReplaceAll(name, ":", "_")
-
 		err := os.WriteFile(config.GlobalConfig.Storage.Path+name, content, 0644)
 		if err != nil {
 			log.Println(err)
@@ -67,9 +63,6 @@ func Read(name string) ([]byte, error) {
 
 	if config.GlobalConfig.Storage.Type == "local" {
 
-		// Change for filename save
-		name = strings.ReplaceAll(name, ":", "_")
-
 		data, err := os.ReadFile(config.GlobalConfig.Storage.Path + name)
 		if err != nil {
 			log.Println(err)
@@ -82,9 +75,6 @@ func Read(name string) ([]byte, error) {
 func Exist(name string) (bool, error) {
 
 	if config.GlobalConfig.Storage.Type == "local" {
-
-		// Change for filename save
-		name = strings.ReplaceAll(name, ":", "_")
 
 		_, err := os.Stat(config.GlobalConfig.Storage.Path + name)
 		fileNotExist := os.IsNotExist(err)
@@ -101,9 +91,6 @@ func Exist(name string) (bool, error) {
 func Rm(name string) error {
 
 	if config.GlobalConfig.Storage.Type == "local" {
-
-		// Change for filename save
-		name = strings.ReplaceAll(name, ":", "_")
 
 		err := os.Remove(config.GlobalConfig.Storage.Path + name)
 		if err != nil {
