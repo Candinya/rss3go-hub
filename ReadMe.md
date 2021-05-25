@@ -25,22 +25,6 @@ They should be already deployed in rss3go_lib .
   
   Request body: Null
 
-- POST `/files` - upload a new file (Signature within)
-
-  Request body: Full file object with signature (Should be new)
-
-    ``` json
-    {
-      "contents": [{
-          "id": "0x.......",
-          "...": "..."
-      }, {
-          "id": "0x.......",
-          "...": "..."
-      }]
-    }
-    ```
-
 - PUT `/files` - change a file (Signature within)
 
   Request body: Arrays of file object with signature (Might already exist)
