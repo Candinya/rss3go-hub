@@ -22,9 +22,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package files
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"rss3go_hub/utils/storage"
+	"strings"
 )
 
 func GetHandler(ctx *gin.Context) {
@@ -44,7 +46,13 @@ func GetHandler(ctx *gin.Context) {
 			handleError(ctx, "Can't read file. Error: " + err.Error(), http.StatusInternalServerError)
 		} else {
 			// No error
-			ctx.Data(http.StatusOK, gin.MIMEJSON, fileBytes)
+			mimeType := http.DetectContentType(fileBytes)
+			if strings.Contains(mimeType, gin.MIMEPlain) {
+				if json.Valid(fileBytes) {
+					mimeType = gin.MIMEJSON
+				}
+			}
+			ctx.Data(http.StatusOK, mimeType, fileBytes)
 		}
 
 	}
