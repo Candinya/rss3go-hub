@@ -23,6 +23,7 @@ package files
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/nyawork/rss3go_lib/utils"
 	"net/http"
 	"rss3go_hub/utils/sign"
 	"rss3go_hub/utils/storage"
@@ -42,7 +43,7 @@ func DeleteHandler(ctx *gin.Context) {
 		handleError(ctx, "Need signature", http.StatusUnauthorized)
 	} else {
 
-		signer, err := sign.GetSigner("delete", req.Signature)
+		signer, err := sign.GetSigner("delete", utils.FixSign(req.Signature))
 		if err != nil {
 			handleError(ctx, "Can't get signer. Error: " + err.Error(), http.StatusInternalServerError)
 		}
