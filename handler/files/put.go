@@ -1,6 +1,6 @@
 /*********************************************************************
 
-rss3go_hub: An alternative version of RSS3-Hub written in go
+rss3go-hub: An alternative version of RSS3-Hub written in go
 
 Copyright (C) 2021 Nyawork, Candinya
 
@@ -25,10 +25,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/nyawork/rss3go_lib/types"
+	"github.com/nyawork/rss3go-lib/types"
 	"net/http"
-	"rss3go_hub/config"
-	"rss3go_hub/utils/storage"
+	"rss3go-hub/config"
+	"rss3go-hub/utils/storage"
 	"strings"
 )
 

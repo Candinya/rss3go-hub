@@ -1,6 +1,6 @@
 /*********************************************************************
 
-rss3go_hub: An alternative version of RSS3-Hub written in go
+rss3go-hub: An alternative version of RSS3-Hub written in go
 
 Copyright (C) 2021 Nyawork, Candinya
 
@@ -23,10 +23,10 @@ package files
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/nyawork/rss3go_lib/utils"
+	"github.com/nyawork/rss3go-lib/utils"
 	"net/http"
-	"rss3go_hub/utils/sign"
-	"rss3go_hub/utils/storage"
+	"rss3go-hub/utils/sign"
+	"rss3go-hub/utils/storage"
 )
 
 type DeleteRequest struct {

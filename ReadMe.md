@@ -3,10 +3,10 @@
 > You are the hub, of all you have, of all you love.
 > Keep going.
 
-[![issue](https://img.shields.io/github/issues/nyawork/rss3go_hub)](https://github.com/nyawork/rss3go_hub/issues)
-[![dev build](https://img.shields.io/github/workflow/status/nyawork/rss3go_hub/RSS3Go-Hub%20Docker%20Build/dev?label=Dev%20Build)](https://hub.docker.com/r/nyawork/rss3go-hub/tags?name=dev)
-[![master build](https://img.shields.io/github/workflow/status/nyawork/rss3go_hub/RSS3Go-Hub%20Docker%20Build/master?label=Release%20Build)](https://hub.docker.com/r/nyawork/rss3go-hub/tags?name=master)
-[![license](https://img.shields.io/github/license/nyawork/rss3go_hub)](https://github.com/nyawork/rss3go_hub/blob/master/LICENSE)
+[![issue](https://img.shields.io/github/issues/nyawork/rss3go-hub)](https://github.com/nyawork/rss3go-hub/issues)
+[![dev build](https://img.shields.io/github/workflow/status/nyawork/rss3go-hub/RSS3Go-Hub%20Docker%20Build/dev?label=Dev%20Build)](https://hub.docker.com/r/nyawork/rss3go-hub/tags?name=dev)
+[![master build](https://img.shields.io/github/workflow/status/nyawork/rss3go-hub/RSS3Go-Hub%20Docker%20Build/master?label=Release%20Build)](https://hub.docker.com/r/nyawork/rss3go-hub/tags?name=master)
+[![license](https://img.shields.io/github/license/nyawork/rss3go-hub)](https://github.com/nyawork/rss3go-hub/blob/master/LICENSE)
 
 ## About
 
@@ -20,10 +20,10 @@ You can use docker and docker-compose for quick deployments now.
 
 ``` shell
 # Grab the docker-compose file
-wget https://raw.githubusercontent.com/nyawork/rss3go_hub/dev/docker-compose.yml
+wget https://raw.githubusercontent.com/nyawork/rss3go-hub/dev/docker-compose.yml
 
 # Grap default configuration file
-wget https://raw.githubusercontent.com/nyawork/rss3go_hub/dev/config.yml
+wget https://raw.githubusercontent.com/nyawork/rss3go-hub/dev/config.yml
 
 # Now you can edit those files as you like.
 ```
@@ -46,7 +46,7 @@ Sometimes we may change the above two `yml` file for more functional implements.
 
 For better compatibility, we are using the same methods for signature authentication in RSS3-Hub.
 
-They are already implemented in [rss3go_lib](https://github.com/nyawork/rss3go_lib).
+They are already implemented in [rss3go-lib](https://github.com/nyawork/rss3go-lib).
 
 ## Endpoints
 

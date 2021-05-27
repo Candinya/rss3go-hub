@@ -1,6 +1,6 @@
 /*********************************************************************
 
-rss3go_hub: An alternative version of RSS3-Hub written in go
+rss3go-hub: An alternative version of RSS3-Hub written in go
 
 Copyright (C) 2021 Nyawork, Candinya
 

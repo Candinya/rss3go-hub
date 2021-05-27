@@ -1,7 +1,7 @@
 FROM golang:1.16-alpine AS BUILDER
 
 # Set the Current Working Directory inside the container
-WORKDIR /rss3go_hub
+WORKDIR /rss3go-hub
 
 # Copy everything from the current directory to the PWD (Present Working Directory) inside the container
 COPY . .
@@ -19,10 +19,10 @@ RUN go build .
 
 FROM alpine:latest AS RUNNER
 
-COPY --from=builder /rss3go_hub/rss3go_hub .
+COPY --from=builder /rss3go-hub/rss3go-hub .
 
 # This container exposes port 8080 to the outside world
 EXPOSE 8080
 
 # Run the executable
-CMD ["./rss3go_hub"]
+CMD ["./rss3go-hub"]

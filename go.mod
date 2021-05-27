@@ -1,4 +1,4 @@
-module rss3go_hub
+module rss3go-hub
 
 go 1.16
 
@@ -10,7 +10,7 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
-	github.com/nyawork/rss3go_lib v0.0.7
+	github.com/nyawork/rss3go-lib v0.0.8
 	github.com/ugorji/go v1.2.6 // indirect
 	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a // indirect
 	golang.org/x/sys v0.0.0-20210521203332-0cec03c779c1 // indirect

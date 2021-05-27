@@ -1,6 +1,6 @@
 /*********************************************************************
 
-rss3go_hub: An alternative version of RSS3-Hub written in go
+rss3go-hub: An alternative version of RSS3-Hub written in go
 
 Copyright (C) 2021 Nyawork, Candinya
 
@@ -24,11 +24,11 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"log"
-	"rss3go_hub/config"
-	"rss3go_hub/routers"
-	"rss3go_hub/routers/files"
-	"rss3go_hub/routers/page"
-	"rss3go_hub/utils/storage"
+	"rss3go-hub/config"
+	"rss3go-hub/routers"
+	"rss3go-hub/routers/files"
+	"rss3go-hub/routers/page"
+	"rss3go-hub/utils/storage"
 )
 
 
