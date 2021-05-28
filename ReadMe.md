@@ -28,6 +28,8 @@ wget https://raw.githubusercontent.com/nyawork/rss3go-hub/dev/config.yml
 # Now you can edit those files as you like.
 ```
 
+Sometimes we may change the above two `yml` file for more functional implements. Don't forget to check them out!
+
 To start up RSS3Go-Hub or for further upgrade, just run follow commands:
 
 ``` shell
@@ -39,8 +41,6 @@ docker-compose pull
 docker-compose up -d
 
 ```
-
-Sometimes we may change the above two `yml` file for more functional implements. Don't forget to check them out!
 
 ## Authentication
 
