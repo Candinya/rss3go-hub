@@ -49,7 +49,7 @@ func GetHandler(ctx *gin.Context) {
 			mimeType := http.DetectContentType(fileBytes)
 			if strings.Contains(mimeType, gin.MIMEPlain) {
 				if json.Valid(fileBytes) {
-					mimeType = gin.MIMEJSON
+					mimeType = strings.Replace(mimeType, gin.MIMEPlain, gin.MIMEJSON, -1)
 				}
 			}
 			ctx.Data(http.StatusOK, mimeType, fileBytes)
